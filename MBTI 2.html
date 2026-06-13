@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tes Kepribadian Lengkap</title>
+  <style>
+    :root{
+      --bg:#0f1118;
+      --card:#171a24;
+      --card2:#1e2230;
+      --soft:#272c3b;
+      --text:#f2f3f7;
+      --muted:#b9c0d3;
+      --muted2:#8f98ad;
+      --accent:#c7a4ff;
+      --accent2:#8bd3ff;
+      --good:#9ef0c8;
+      --warn:#ffd48a;
+      --bad:#ff9aa8;
+      --line:rgba(255,255,255,.10);
+      --shadow:0 18px 50px rgba(0,0,0,.35);
+      --radius:24px;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(199,164,255,.18), transparent 35%),
+        radial-gradient(circle at 80% 15%, rgba(139,211,255,.14), transparent 30%),
+        radial-gradient(circle at 50% 90%, rgba(158,240,200,.08), transparent 35%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    .app{
+      width:min(980px, 100%);
+      margin:0 auto;
+      padding:22px;
+    }
+
+    .screen{display:none}
+    .screen.active{display:block}
+
+    .hero,.card{
+      background:linear-gradient(145deg, rgba(23,26,36,.96), rgba(30,34,48,.94));
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      border-radius:var(--radius);
+    }
+
+    .hero{
+      padding:34px;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .hero:before{
+      content:"";
+      position:absolute;
+      width:260px;
+      height:260px;
+      border-radius:50%;
+      background:rgba(199,164,255,.10);
+      right:-80px;
+      top:-90px;
+      filter:blur(2px);
+    }
+
+    .badge{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(199,164,255,.12);
+      border:1px solid rgba(199,164,255,.22);
+      color:#e7d8ff;
+      font-size:.86rem;
+      position:relative;
+    }
+
+    h1{
+      font-size:clamp(2rem, 6vw, 4rem);
+      line-height:1.05;
+      margin:22px 0 14px;
+      letter-spacing:-.06em;
+    }
+
+    h2{
+      font-size:clamp(1.45rem, 4vw, 2.2rem);
+      line-height:1.15;
+      margin:0 0 14px;
+      letter-spacing:-.035em;
+    }
+
+    h3{
+      margin:0 0 10px;
+      font-size:1.18rem;
+      letter-spacing:-.02em;
+    }
+
+    p{color:var(--muted); margin:0 0 14px}
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:12px;
+      margin:24px 0;
+    }
+
+    .mini{
+      padding:14px;
+      background:rgba(255,255,255,.045);
+      border:1px solid var(--line);
+      border-radius:18px;
+      color:var(--muted);
+      font-size:.94rem;
+    }
+
+    .mini b{
+      color:var(--text);
+      display:block;
+      margin-bottom:4px;
+    }
+
+    .button-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:22px;
+    }
+
+    button{
+      border:0;
+      cursor:pointer;
+      color:var(--text);
+      font:inherit;
+      transition:.18s ease;
+    }
+
+    .primary,.secondary,.ghost{
+      padding:14px 18px;
+      border-radius:16px;
+      font-weight:750;
+      min-height:52px;
+    }
+
+    .primary{
+      background:linear-gradient(135deg, var(--accent), var(--accent2));
+      color:#12131a;
+      box-shadow:0 12px 30px rgba(199,164,255,.22);
+    }
+
+    .primary:hover{transform:translateY(-1px); filter:brightness(1.05)}
+    .secondary{
+      background:rgba(255,255,255,.075);
+      border:1px solid var(--line);
+    }
+    .secondary:hover,.ghost:hover{background:rgba(255,255,255,.11)}
+    .ghost{
+      background:transparent;
+      border:1px solid var(--line);
+      color:var(--muted);
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:16px;
+    }
+
+    .counter{
+      color:var(--muted);
+      font-size:.95rem;
+    }
+
+    .progress-shell{
+      height:12px;
+      background:rgba(255,255,255,.07);
+      border-radius:999px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      margin:0 0 18px;
+    }
+
+    .progress-fill{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background:linear-gradient(90deg, var(--accent), var(--accent2), var(--good));
+      transition:.25s ease;
+    }
+
+    .question-card{
+      padding:26px;
+    }
+
+    .question-text{
+      font-size:clamp(1.25rem, 4vw, 2rem);
+      line-height:1.25;
+      letter-spacing:-.035em;
+      margin-bottom:20px;
+      color:var(--text);
+    }
+
+    .options{
+      display:grid;
+      gap:12px;
+    }
+
+    .option{
+      width:100%;
+      text-align:left;
+      padding:17px 18px;
+      border-radius:18px;
+      background:rgba(255,255,255,.055);
+      border:1px solid var(--line);
+      color:var(--text);
+      min-height:58px;
+    }
+
+    .option:hover{
+      background:rgba(199,164,255,.12);
+      border-color:rgba(199,164,255,.35);
+      transform:translateY(-1px);
+    }
+
+    .option.selected{
+      background:linear-gradient(135deg, rgba(199,164,255,.20), rgba(139,211,255,.12));
+      border-color:rgba(199,164,255,.55);
+    }
+
+    .nav-row{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .result-layout{
+      display:grid;
+      gap:16px;
+    }
+
+    .result-header{
+      padding:28px;
+    }
+
+    .result-title{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:12px;
+      margin-bottom:12px;
+    }
+
+    .type-pill{
+      display:inline-flex;
+      padding:10px 15px;
+      border-radius:999px;
+      background:rgba(199,164,255,.16);
+      border:1px solid rgba(199,164,255,.35);
+      color:#eadcff;
+      font-weight:850;
+      letter-spacing:.04em;
+    }
+
+    .section{
+      padding:22px;
+      border-radius:22px;
+      background:rgba(255,255,255,.045);
+      border:1px solid var(--line);
+    }
+
+    .section p:last-child{margin-bottom:0}
+
+    .bars{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .bar-item{
+      display:grid;
+      grid-template-columns:54px 1fr 48px;
+      gap:10px;
+      align-items:center;
+      color:var(--muted);
+      font-size:.94rem;
+    }
+
+    .bar-name{
+      font-weight:800;
+      color:var(--text);
+    }
+
+    .bar-bg{
+      height:10px;
+      background:rgba(255,255,255,.07);
+      border:1px solid var(--line);
+      border-radius:999px;
+      overflow:hidden;
+    }
+
+    .bar{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background:linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+
+    .result-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+    }
+
+    .small-card{
+      padding:16px;
+      border-radius:18px;
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--line);
+    }
+
+    .small-card b{
+      color:var(--text);
+    }
+
+    .list{
+      display:grid;
+      gap:12px;
+      margin-top:12px;
+    }
+
+    .soft-list{
+      margin:10px 0 0;
+      padding-left:18px;
+      color:var(--muted);
+    }
+
+    .soft-list li{margin:6px 0}
+
+    .note{
+      padding:14px;
+      border-radius:18px;
+      border:1px solid rgba(255,212,138,.25);
+      background:rgba(255,212,138,.08);
+      color:#ffe2a8;
+      margin-top:16px;
+    }
+
+    .muted{color:var(--muted)}
+    .tiny{font-size:.9rem;color:var(--muted2)}
+
+    .footer-actions{
+      position:sticky;
+      bottom:12px;
+      z-index:10;
+      background:rgba(15,17,24,.75);
+      backdrop-filter:blur(12px);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:center;
+      margin-top:18px;
+    }
+
+    @media(max-width:720px){
+      .app{padding:14px}
+      .hero,.question-card,.result-header{padding:22px}
+      .grid,.result-grid{grid-template-columns:1fr}
+      .topbar{align-items:flex-start; flex-direction:column}
+      .nav-row{flex-direction:column}
+      .nav-row button,.button-row button,.footer-actions button{width:100%}
+      .bar-item{grid-template-columns:48px 1fr 42px}
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section id="startScreen" class="screen active">
+      <div class="hero">
+        <span class="badge">Tes tipologi lengkap • Bahasa Indonesia sederhana</span>
+        <h1>Tes Kepribadian Berbasis Pola Jawaban</h1>
+        <p>
+          Tes ini memperkirakan MBTI lewat fungsi kognitif, ranking Ni Ne Si Se Fi Fe Ti Te,
+          Enneagram, wing, instinctual stacking, tritype, Big Five, temperament, Socionics,
+          Attitudinal Psyche, dan gaya keputusan moral.
+        </p>
+        <p>
+          Jawablah berdasarkan hal yang paling terasa alami bagimu, bukan yang paling ideal.
+          Tidak ada jawaban paling pintar, paling baik, atau paling benar.
+        </p>
+
+        <div class="grid">
+          <div class="mini"><b>Serius, tapi tidak kaku</b>Pertanyaan berbentuk situasi hidup sehari-hari.</div>
+          <div class="mini"><b>Anti-stereotip</b>Hasil memakai kata “kemungkinan”, bukan vonis mutlak.</div>
+          <div class="mini"><b>Langsung bekerja</b>Satu file HTML, CSS, dan JavaScript tanpa library.</div>
+        </div>
+
+        <div class="button-row">
+          <button class="primary" id="startBtn">Mulai Tes</button>
+          <button class="secondary" id="aboutBtn">Cara Membaca Hasil</button>
+        </div>
+
+        <div id="aboutBox" class="note" style="display:none">
+          MBTI di sini dihitung dari kecocokan stack fungsi kognitif, bukan dari stereotip.
+          Tipologi lain seperti Socionics dan Psychosophy hanya estimasi tambahan.
+          Hasil paling kuat tetap perlu dibandingkan dengan kehidupan nyata.
+        </div>
+      </div>
+    </section>
+
+    <section id="testScreen" class="screen">
+      <div class="topbar">
+        <div>
+          <span class="badge">Jawab pelan-pelan, jangan terlalu dibuat ideal</span>
+        </div>
+        <div class="counter" id="counterText">Pertanyaan 1/56</div>
+      </div>
+
+      <div class="progress-shell">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="card question-card">
+        <div class="question-text" id="questionText"></div>
+        <div class="options" id="optionsBox"></div>
+        <div class="nav-row">
+          <button class="ghost" id="backBtn">Kembali</button>
+          <button class="secondary" id="skipBtn">Lewati</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="screen">
+      <div class="card result-header">
+        <div class="result-title">
+          <span class="type-pill" id="mainTypePill">----</span>
+          <span class="badge" id="confidenceBadge">Keyakinan: -</span>
+        </div>
+        <h2>Hasil Estimasi Kepribadianmu</h2>
+        <p id="mainSummary"></p>
+        <div class="note">
+          Ini bukan diagnosis. Ini hanya estimasi tipologi berdasarkan jawabanmu.
+        </div>
+      </div>
+
+      <div id="resultsBox" class="result-layout"></div>
+
+      <div class="footer-actions">
+        <button class="primary" id="copyBtn">Salin Hasil</button>
+        <button class="secondary" id="restartBtn">Ulangi Tes</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const FUNCTIONS = ["Ni","Ne","Si","Se","Fi","Fe","Ti","Te"];
+    const ENNEA = ["1","2","3","4","5","6","7","8","9"];
+    const INSTINCTS = ["sp","so","sx"];
+    const BIG5 = ["O","C","E","A","N"];
+    const TEMPS = ["Melankolis","Plegmatis","Sanguinis","Koleris"];
+    const AP = ["V","L","E","F"];
+    const MORAL = ["care","justice","truth","order","loyalty","liberty","outcome"];
+
+    const STACKS = {
+      INTJ:["Ni","Te","Fi","Se"], INFJ:["Ni","Fe","Ti","Se"],
+      ENTJ:["Te","Ni","Se","Fi"], ENFJ:["Fe","Ni","Se","Ti"],
+      INTP:["Ti","Ne","Si","Fe"], INFP:["Fi","Ne","Si","Te"],
+      ENTP:["Ne","Ti","Fe","Si"], ENFP:["Ne","Fi","Te","Si"],
+      ISTJ:["Si","Te","Fi","Ne"], ISFJ:["Si","Fe","Ti","Ne"],
+      ESTJ:["Te","Si","Ne","Fi"], ESFJ:["Fe","Si","Ne","Ti"],
+      ISTP:["Ti","Se","Ni","Fe"], ISFP:["Fi","Se","Ni","Te"],
+      ESTP:["Se","Ti","Fe","Ni"], ESFP:["Se","Fi","Te","Ni"]
+    };
+
+    const SOCIONICS = {
+      INTJ:"ILI / INTp", INFJ:"IEI / INFp", ENTJ:"LIE / ENTj", ENFJ:"EIE / ENFj",
+      INTP:"LII / INTj", INFP:"EII / INFj", ENTP:"ILE / ENTp", ENFP:"IEE / ENFp",
+      ISTJ:"LSI / ISTj", ISFJ:"SEI / ISFp", ESTJ:"LSE / ESTj", ESFJ:"ESE / ESFj",
+      ISTP:"SLI / ISTp", ISFP:"ESI / ISFj", ESTP:"SLE / ESTp", ESFP:"SEE / ESFp"
+    };
+
+    const FUNCTION_INFO = {
+      Ni:"Melihat pola mendalam, arah masa depan, dan makna tersembunyi dari banyak tanda kecil.",
+      Ne:"Melihat banyak kemungkinan, ide bercabang, dan banyak cara baru untuk memahami situasi.",
+      Si:"Mengingat pengalaman lama, mencari bukti yang familiar, dan memakai masa lalu sebagai pegangan.",
+      Se:"Menangkap keadaan saat ini, bertindak cepat, dan peka pada hal nyata di depan mata.",
+      Fi:"Menimbang nilai pribadi, perasaan batin, dan kejujuran pada diri sendiri.",
+      Fe:"Membaca suasana, menjaga hubungan, dan memikirkan dampak emosional pada orang lain.",
+      Ti:"Membedah alasan, mencari ketepatan, dan ingin sesuatu masuk akal dari dalam.",
+      Te:"Menyusun langkah, mengejar hasil nyata, dan melihat apakah cara itu efektif."
+    };
+
+    const TYPE_INFO = {
+      INTJ:"Kemungkinan pola Ni–Te: melihat arah jangka panjang lalu mencari cara yang efisien untuk mewujudkannya.",
+      INFJ:"Kemungkinan pola Ni–Fe: membaca pola manusia dan arah batin, lalu menjaga dampaknya pada orang lain.",
+      ENTJ:"Kemungkinan pola Te–Ni: langsung mengatur langkah besar, fokus hasil, dan punya arah masa depan yang kuat.",
+      ENFJ:"Kemungkinan pola Fe–Ni: membaca kebutuhan orang, membangun arah bersama, dan memimpin lewat hubungan.",
+      INTP:"Kemungkinan pola Ti–Ne: membedah konsep sampai masuk akal, lalu membuka banyak kemungkinan ide.",
+      INFP:"Kemungkinan pola Fi–Ne: menjaga nilai pribadi, lalu melihat banyak kemungkinan yang sesuai dengan makna batin.",
+      ENTP:"Kemungkinan pola Ne–Ti: cepat melihat kemungkinan, lalu menguji ide dengan logika tajam.",
+      ENFP:"Kemungkinan pola Ne–Fi: melihat banyak peluang manusiawi, lalu memilih yang terasa hidup dan bermakna.",
+      ISTJ:"Kemungkinan pola Si–Te: memakai pengalaman, aturan jelas, dan langkah praktis untuk menjaga hasil.",
+      ISFJ:"Kemungkinan pola Si–Fe: menjaga kestabilan, mengingat kebutuhan orang, dan merawat hubungan lewat tindakan nyata.",
+      ESTJ:"Kemungkinan pola Te–Si: menyusun sistem yang jelas, memakai bukti lama, dan memastikan semuanya berjalan.",
+      ESFJ:"Kemungkinan pola Fe–Si: menjaga harmoni sosial, tradisi, dan kebutuhan nyata orang di sekitar.",
+      ISTP:"Kemungkinan pola Ti–Se: memahami cara kerja sesuatu, lalu bertindak langsung saat situasi nyata muncul.",
+      ISFP:"Kemungkinan pola Fi–Se: mengikuti nilai batin, lalu mengekspresikannya lewat tindakan nyata dan pengalaman langsung.",
+      ESTP:"Kemungkinan pola Se–Ti: cepat membaca situasi, bertindak langsung, lalu menyesuaikan dengan logika praktis.",
+      ESFP:"Kemungkinan pola Se–Fi: hidup di momen nyata, ekspresif, dan memilih hal yang terasa jujur bagi diri."
+    };
+
+    function zero(keys){
+      return Object.fromEntries(keys.map(k => [k,0]));
+    }
+
+    function mergeScore(base, add){
+      Object.keys(add || {}).forEach(k => {
+        if(base[k] === undefined) base[k] = 0;
+        base[k] += add[k];
+      });
+      return base;
+    }
+
+    function normalizeScore(s){
+      return {
+        fn: Object.assign(zero(FUNCTIONS), s.fn || {}),
+        pos: {
+          dom: Object.assign(zero(FUNCTIONS), (s.pos && s.pos.dom) || {}),
+          aux: Object.assign(zero(FUNCTIONS), (s.pos && s.pos.aux) || {}),
+          tert: Object.assign(zero(FUNCTIONS), (s.pos && s.pos.tert) || {}),
+          inf: Object.assign(zero(FUNCTIONS), (s.pos && s.pos.inf) || {}),
+          shadow: Object.assign(zero(FUNCTIONS), (s.pos && s.pos.shadow) || {})
+        },
+        ennea: Object.assign(zero(ENNEA), s.ennea || {}),
+        instinct: Object.assign(zero(INSTINCTS), s.instinct || {}),
+        big5: Object.assign(zero(BIG5), s.big5 || {}),
+        temp: Object.assign(zero(TEMPS), s.temp || {}),
+        ap: Object.assign(zero(AP), s.ap || {}),
+        moral: Object.assign(zero(MORAL), s.moral || {})
+      };
+    }
+
+    function O(text, score){
+      return { text, score: normalizeScore(score) };
+    }
+
+    const questions = [
+      {
+        q:"Kamu sedang memilih jalan hidup. Banyak orang memberi saran yang berbeda. Apa yang paling alami bagimu?",
+        options:[
+          O("Aku mencari satu arah yang paling masuk akal secara batin, lalu pelan-pelan memegang arah itu.",{fn:{Ni:4,Ti:1},pos:{dom:{Ni:2},aux:{Ti:1}},ennea:{5:1,4:1,1:.5},instinct:{sp:1},big5:{O:2,C:1,E:-1},temp:{Melankolis:2},ap:{L:2,V:1},moral:{truth:2,order:1}}),
+          O("Aku membuka banyak kemungkinan dulu, membayangkan beberapa jalan, lalu melihat mana yang terasa hidup.",{fn:{Ne:4,Fi:1},pos:{dom:{Ne:2},aux:{Fi:1}},ennea:{7:1,4:1},instinct:{sx:1},big5:{O:2,E:1,N:.5},temp:{Sanguinis:2},ap:{E:1,V:1,L:1},moral:{liberty:2,care:1}}),
+          O("Aku melihat pengalaman yang sudah terbukti, saran orang yang pernah melewati ini, dan risiko nyata.",{fn:{Si:4,Te:1},pos:{dom:{Si:2},aux:{Te:1}},ennea:{6:2,1:.5},instinct:{sp:2},big5:{C:2,O:-.5,N:.5},temp:{Plegmatis:1,Melankolis:1},ap:{F:1,L:1},moral:{order:2,loyalty:1}}),
+          O("Aku mencoba langkah yang bisa kulakukan sekarang, bukan terlalu lama memutar kemungkinan di kepala.",{fn:{Se:4,Te:1},pos:{dom:{Se:2},aux:{Te:1}},ennea:{8:1,7:1,3:.5},instinct:{sp:1,sx:.5},big5:{E:1,C:.5,N:-.5},temp:{Koleris:1,Sanguinis:1},ap:{V:2,F:1},moral:{outcome:2,liberty:1}})
+        ]
+      },
+      {
+        q:"Saat temanmu curhat dan suasananya berat, kamu biasanya melakukan apa dulu?",
+        options:[
+          O("Aku menangkap suasana hatinya, menjaga nada bicara, dan mencoba membuat dia merasa aman.",{fn:{Fe:4,Ni:1},pos:{dom:{Fe:1},aux:{Fe:1,Ni:1}},ennea:{2:2,9:.5},instinct:{so:1},big5:{A:2,E:.5,N:.5},temp:{Plegmatis:1,Sanguinis:.5},ap:{E:2},moral:{care:3,loyalty:1}}),
+          O("Aku menahan diri dulu, lalu mencoba memahami perasaan terdalamku tentang masalah itu sebelum menjawab.",{fn:{Fi:4,Ni:1},pos:{dom:{Fi:1},aux:{Fi:1}},ennea:{4:2,9:.5},instinct:{sx:1},big5:{A:1,O:1,N:1},temp:{Melankolis:2},ap:{E:2,L:.5},moral:{care:1,truth:1,liberty:1}}),
+          O("Aku bertanya pelan-pelan supaya inti masalahnya jelas dan tidak hanya berputar di emosi.",{fn:{Ti:4,Fe:1},pos:{dom:{Ti:1},aux:{Ti:1}},ennea:{5:2,6:.5},instinct:{sp:1},big5:{O:1,A:.5,E:-.5},temp:{Melankolis:1},ap:{L:2},moral:{truth:2,care:1}}),
+          O("Aku membantu dia mencari langkah konkret agar masalahnya tidak makin membesar.",{fn:{Te:4,Fe:1},pos:{dom:{Te:1},aux:{Te:1}},ennea:{3:1,1:1,8:.5},instinct:{so:1,sp:.5},big5:{C:2,A:.5},temp:{Koleris:2},ap:{V:2,L:1},moral:{outcome:2,care:1}})
+        ]
+      },
+      {
+        q:"Kamu masuk ke ruangan baru dan ada suasana canggung. Hal pertama yang paling kamu sadari?",
+        options:[
+          O("Aku langsung sadar posisi orang, ekspresi kecil, suara, dan hal nyata yang sedang terjadi.",{fn:{Se:4,Fe:1},pos:{dom:{Se:2},aux:{Se:1}},ennea:{7:1,8:.5,2:.5},instinct:{so:1},big5:{E:2,N:-.5},temp:{Sanguinis:2},ap:{F:1,E:1},moral:{care:1,outcome:1}}),
+          O("Aku menangkap pola suasana, seperti ada cerita tersembunyi di balik diam mereka.",{fn:{Ni:4,Fe:1},pos:{dom:{Ni:2},aux:{Fe:1}},ennea:{4:1,5:1,9:.5},instinct:{sx:1},big5:{O:2,E:-.5,N:.5},temp:{Melankolis:2},ap:{L:1,E:1},moral:{truth:1,care:1}}),
+          O("Aku membandingkan dengan suasana serupa yang pernah terjadi sebelumnya.",{fn:{Si:4,Fe:1},pos:{dom:{Si:2},aux:{Fe:1}},ennea:{6:1,9:1,2:.5},instinct:{sp:1,so:.5},big5:{C:1,A:1},temp:{Plegmatis:2},ap:{F:1,E:1},moral:{loyalty:1,care:1,order:1}}),
+          O("Aku membayangkan beberapa kemungkinan lucu atau aneh kenapa suasananya jadi seperti itu.",{fn:{Ne:4,Fe:1},pos:{dom:{Ne:2},aux:{Ne:1}},ennea:{7:2,6:.5},instinct:{so:1},big5:{O:2,E:1},temp:{Sanguinis:2},ap:{E:1,L:1},moral:{liberty:2,care:1}})
+        ]
+      },
+      {
+        q:"Saat bekerja dalam kelompok, bagian mana yang paling sering kamu ambil?",
+        options:[
+          O("Menyusun langkah, membagi tugas, dan memastikan pekerjaan selesai jelas.",{fn:{Te:4,Si:1},pos:{dom:{Te:2},aux:{Te:1}},ennea:{3:1,1:1,8:.5},instinct:{so:1,sp:1},big5:{C:2,E:.5,A:-.2},temp:{Koleris:2},ap:{V:2,L:1},moral:{outcome:2,order:1}}),
+          O("Menjaga suasana supaya orang tidak saling tersinggung dan semua merasa diajak.",{fn:{Fe:4,Si:1},pos:{dom:{Fe:2},aux:{Fe:1}},ennea:{2:2,9:1},instinct:{so:2},big5:{A:2,E:1},temp:{Plegmatis:1,Sanguinis:1},ap:{E:2},moral:{care:2,loyalty:1}}),
+          O("Mencari ide baru yang membuat tugasnya tidak terlalu biasa.",{fn:{Ne:4,Ti:1},pos:{dom:{Ne:2},aux:{Ne:1}},ennea:{7:1,5:.5,4:.5},instinct:{sx:1},big5:{O:2,C:-.5},temp:{Sanguinis:2},ap:{L:1,E:1},moral:{liberty:2,truth:1}}),
+          O("Mengecek apakah konsepnya benar dan tidak ada bagian yang asal-asalan.",{fn:{Ti:4,Si:1},pos:{dom:{Ti:2},aux:{Ti:1}},ennea:{5:2,1:.5},instinct:{sp:1},big5:{O:1,C:1,E:-1},temp:{Melankolis:2},ap:{L:2},moral:{truth:2,justice:1}})
+        ]
+      },
+      {
+        q:"Saat kamu menyukai seseorang, hal mana yang paling mungkin terjadi?",
+        options:[
+          O("Aku membaca tanda-tanda kecil dan membayangkan arah hubungan ini ke depan.",{fn:{Ni:3,Fe:1,Fi:1},pos:{dom:{Ni:1},aux:{Ni:1}},ennea:{4:1,5:.5,9:.5},instinct:{sx:2},big5:{O:1,N:1,E:-.5},temp:{Melankolis:2},ap:{E:1,L:1},moral:{care:1,truth:1}}),
+          O("Aku jadi melihat banyak kemungkinan: kalau begini, kalau begitu, kalau ternyata dia juga suka.",{fn:{Ne:4,Fi:1},pos:{dom:{Ne:1},aux:{Ne:1}},ennea:{7:1,4:1,6:.5},instinct:{sx:2},big5:{O:2,N:.5},temp:{Sanguinis:1,Melankolis:.5},ap:{E:1},moral:{liberty:1,care:1}}),
+          O("Aku memperhatikan apakah tindakanku sesuai dengan nilai dan perasaanku sendiri.",{fn:{Fi:4,Si:1},pos:{dom:{Fi:2},aux:{Fi:1}},ennea:{4:2,9:.5},instinct:{sx:1,sp:.5},big5:{A:.5,O:1,N:1},temp:{Melankolis:2},ap:{E:2},moral:{truth:1,liberty:1,care:1}}),
+          O("Aku mencoba bersikap hangat tanpa membuat suasana aneh atau menekan dia.",{fn:{Fe:4,Se:1},pos:{dom:{Fe:1},aux:{Fe:1}},ennea:{2:2,3:.5,9:.5},instinct:{so:1,sx:1},big5:{A:2,E:1},temp:{Sanguinis:1,Plegmatis:1},ap:{E:2,F:.5},moral:{care:2,loyalty:1}})
+        ]
+      },
+      {
+        q:"Ketika rencanamu tiba-tiba gagal, respons awalmu lebih dekat ke mana?",
+        options:[
+          O("Aku cepat melihat kondisi nyata sekarang dan langsung mencari jalan lain.",{fn:{Se:4,Te:1},pos:{dom:{Se:1},aux:{Se:1}},ennea:{8:1,7:1},instinct:{sp:1},big5:{E:1,N:-1,C:.5},temp:{Koleris:1,Sanguinis:1},ap:{V:2,F:1},moral:{outcome:2,liberty:1}}),
+          O("Aku merasa terganggu, lalu mencari pola kenapa ini terjadi dan apa artinya untuk ke depan.",{fn:{Ni:4,Ti:1},pos:{dom:{Ni:1},inf:{Se:1}},ennea:{5:1,4:.5,6:.5},instinct:{sp:1},big5:{O:1,N:1},temp:{Melankolis:2},ap:{L:2},moral:{truth:2,order:1}}),
+          O("Aku kembali ke cara yang pernah berhasil atau meminta acuan yang jelas.",{fn:{Si:4,Te:1},pos:{dom:{Si:1},aux:{Si:1}},ennea:{6:2,1:.5},instinct:{sp:2},big5:{C:2,N:.5,O:-.5},temp:{Plegmatis:1,Melankolis:1},ap:{F:1,L:1},moral:{order:2,loyalty:1}}),
+          O("Aku membuat ulang rencana, memilih yang paling efisien, lalu jalan lagi.",{fn:{Te:4,Ni:1},pos:{dom:{Te:1},aux:{Te:1}},ennea:{3:1,8:1,1:.5},instinct:{sp:1,so:.5},big5:{C:2,N:-.5},temp:{Koleris:2},ap:{V:2,L:1},moral:{outcome:3}})
+        ]
+      },
+      {
+        q:"Kamu diminta jujur, tetapi kejujuran itu bisa melukai perasaan orang. Apa yang kamu pikirkan dulu?",
+        options:[
+          O("Bagaimana menyampaikan kebenaran tanpa merusak hati dan hubungan.",{fn:{Fe:4,Ti:1},pos:{dom:{Fe:1},aux:{Fe:1}},ennea:{2:1,9:1,1:.5},instinct:{so:1},big5:{A:2,C:.5},temp:{Plegmatis:2},ap:{E:2,L:.5},moral:{care:2,truth:1}}),
+          O("Apakah aku mengkhianati nilai diriku kalau tidak berkata jujur.",{fn:{Fi:4,Te:1},pos:{dom:{Fi:1},aux:{Fi:1}},ennea:{4:1,1:1},instinct:{sx:1},big5:{O:1,A:.5,N:.5},temp:{Melankolis:2},ap:{E:2,V:.5},moral:{truth:2,liberty:1}}),
+          O("Mana kalimat yang paling tepat, tidak bias, dan tidak melebih-lebihkan.",{fn:{Ti:4,Fe:1},pos:{dom:{Ti:1},aux:{Ti:1}},ennea:{5:1,1:1},instinct:{sp:1},big5:{C:1,O:1,A:0},temp:{Melankolis:1},ap:{L:2},moral:{truth:3,justice:1}}),
+          O("Apa dampak nyata dari berkata jujur sekarang dibanding menunggu waktu yang lebih tepat.",{fn:{Te:3,Ni:1,Fe:1},pos:{dom:{Te:1},aux:{Ni:1}},ennea:{3:1,8:.5,1:.5},instinct:{so:1,sp:.5},big5:{C:2,A:.2},temp:{Koleris:1},ap:{V:2,L:.5},moral:{outcome:2,truth:1}})
+        ]
+      },
+      {
+        q:"Saat kamu merasa tidak dipahami, biasanya kamu...",
+        options:[
+          O("Diam dan mencoba menyusun makna di kepala sampai aku tahu inti perasaannya.",{fn:{Ni:3,Fi:2},pos:{dom:{Ni:1,Fi:1},inf:{Se:.5}},ennea:{4:2,5:.5},instinct:{sx:1,sp:.5},big5:{O:1,N:1.5,E:-1},temp:{Melankolis:2},ap:{E:1,L:1},moral:{truth:1,liberty:1}}),
+          O("Menjelaskan ulang dengan contoh dan kemungkinan lain agar orang bisa menangkap maksudku.",{fn:{Ne:3,Fe:1,Ti:1},pos:{dom:{Ne:1},aux:{Ne:1}},ennea:{7:.5,6:.5,2:.5},instinct:{so:1},big5:{O:1,E:1,N:.5},temp:{Sanguinis:1},ap:{E:1,L:1},moral:{care:1,truth:1}}),
+          O("Mundur sebentar, karena kalau nilai batinku tidak dihargai aku sulit berpura-pura baik-baik saja.",{fn:{Fi:4,Si:1},pos:{dom:{Fi:2},aux:{Fi:1}},ennea:{4:2,9:.5},instinct:{sx:1},big5:{N:1.5,A:.5,E:-.5},temp:{Melankolis:2},ap:{E:2},moral:{liberty:1,truth:1}}),
+          O("Mencoba mengurai salah pahamnya secara logis, bagian mana yang salah tangkap.",{fn:{Ti:4,Ne:1},pos:{dom:{Ti:2},aux:{Ti:1}},ennea:{5:2,6:.5},instinct:{sp:1},big5:{O:1,E:-.5,N:.5},temp:{Melankolis:1},ap:{L:2},moral:{truth:2,justice:1}})
+        ]
+      },
+      {
+        q:"Dalam konflik keluarga, hal yang paling membuatmu lelah adalah...",
+        options:[
+          O("Ketika semua orang bicara tanpa melihat pola masalah yang sebenarnya berulang.",{fn:{Ni:3,Fe:1,Ti:1},pos:{dom:{Ni:1},aux:{Ni:1}},ennea:{5:1,4:.5,1:.5},instinct:{sp:.5,so:.5},big5:{O:1,N:1},temp:{Melankolis:2},ap:{L:1,E:1},moral:{truth:2,care:1}}),
+          O("Ketika suasana panas dan orang saling melukai padahal bisa bicara lebih lembut.",{fn:{Fe:4,Si:1},pos:{dom:{Fe:1},aux:{Fe:1}},ennea:{2:1,9:2},instinct:{so:1},big5:{A:2,N:1},temp:{Plegmatis:2},ap:{E:2},moral:{care:3,loyalty:1}}),
+          O("Ketika orang tidak mau menyelesaikan masalah dengan langkah yang jelas.",{fn:{Te:4,Si:1},pos:{dom:{Te:1},aux:{Te:1}},ennea:{1:1,8:1,3:.5},instinct:{sp:1},big5:{C:2,A:-.3},temp:{Koleris:2},ap:{V:2,L:.5},moral:{order:2,outcome:2}}),
+          O("Ketika aturan lama dipakai terus, padahal ada cara lain yang mungkin lebih sehat.",{fn:{Ne:3,Fi:1,Ti:1},pos:{dom:{Ne:1},aux:{Ne:1}},ennea:{7:1,4:.5,1:.5},instinct:{sx:.5,so:.5},big5:{O:2,C:-.3},temp:{Sanguinis:1},ap:{L:1,E:1},moral:{liberty:2,justice:1}})
+        ]
+      },
+      {
+        q:"Saat harus belajar hal baru, gaya paling nyaman untukmu adalah...",
+        options:[
+          O("Memahami konsep inti dulu sampai terasa menyatu, baru masuk detail.",{fn:{Ni:3,Ti:2},pos:{dom:{Ni:1,Ti:1}},ennea:{5:2},instinct:{sp:1},big5:{O:2,C:.5,E:-.5},temp:{Melankolis:2},ap:{L:2},moral:{truth:2}}),
+          O("Mencoba banyak sumber, contoh, video, dan ide sampai gambarnya terbuka.",{fn:{Ne:4,Ti:1},pos:{dom:{Ne:1},aux:{Ne:1}},ennea:{7:1,5:1},instinct:{sx:.5,so:.5},big5:{O:2,E:.5,C:-.5},temp:{Sanguinis:1},ap:{L:1,E:.5},moral:{liberty:2,truth:1}}),
+          O("Mengulang dari dasar, memakai contoh yang jelas, dan latihan bertahap.",{fn:{Si:4,Te:1},pos:{dom:{Si:1},aux:{Si:1}},ennea:{6:1,1:1},instinct:{sp:2},big5:{C:2,O:-.2},temp:{Plegmatis:1,Melankolis:1},ap:{F:1,L:1},moral:{order:2}}),
+          O("Langsung mencoba praktik, salah sedikit tidak apa-apa asal cepat paham medan nyatanya.",{fn:{Se:4,Te:1},pos:{dom:{Se:1},aux:{Se:1}},ennea:{7:1,8:.5,3:.5},instinct:{sp:1},big5:{E:1,O:.5,N:-.5},temp:{Sanguinis:1,Koleris:1},ap:{F:1,V:1},moral:{outcome:2,liberty:1}})
+        ]
+      },
+      {
+        q:"Kalau orang menilaimu salah, bagian mana yang paling ingin kamu luruskan?",
+        options:[
+          O("Niat dan nilai batinku, karena aku tidak ingin terlihat palsu.",{fn:{Fi:4,Ni:1},pos:{dom:{Fi:1},aux:{Fi:1}},ennea:{4:2,1:.5},instinct:{sx:1},big5:{N:1,O:1,A:.3},temp:{Melankolis:2},ap:{E:2},moral:{truth:2,liberty:1}}),
+          O("Alasan logisnya, karena aku ingin mereka paham bahwa pikiranku tidak asal.",{fn:{Ti:4,Ne:1},pos:{dom:{Ti:1},aux:{Ti:1}},ennea:{5:2,1:.5},instinct:{sp:1},big5:{O:1,C:.5,E:-.3},temp:{Melankolis:1},ap:{L:2},moral:{truth:3}}),
+          O("Dampaknya pada hubungan, karena salah paham bisa merusak suasana.",{fn:{Fe:4,Si:1},pos:{dom:{Fe:1},aux:{Fe:1}},ennea:{2:1,9:1,6:.5},instinct:{so:1},big5:{A:2,N:.5},temp:{Plegmatis:1},ap:{E:2},moral:{care:2,loyalty:1}}),
+          O("Fakta dan hasilnya, karena penilaian harus sesuai bukti nyata.",{fn:{Te:4,Se:1},pos:{dom:{Te:1},aux:{Te:1}},ennea:{3:1,8:.5,1:.5},instinct:{so:.5,sp:.5},big5:{C:2,N:-.2},temp:{Koleris:2},ap:{V:1,L:1},moral:{justice:1,outcome:2,truth:1}})
+        ]
+      },
+      {
+        q:"Saat ada perubahan mendadak di tempat kerja atau sekolah, kamu cenderung...",
+        options:[
+          O("Mengamati pola perubahan itu dan memprediksi efek jangka panjangnya.",{fn:{Ni:4,Te:1},pos:{dom:{Ni:1},aux:{Ni:1}},ennea:{5:1,6:.5,1:.5},instinct:{sp:1},big5:{O:1,C:.5,N:.5},temp:{Melankolis:2},ap:{L:1,V:.5},moral:{truth:1,order:1}}),
+          O("Mencari peluang baru dari perubahan itu, bahkan kalau awalnya kacau.",{fn:{Ne:4,Te:1},pos:{dom:{Ne:1},aux:{Ne:1}},ennea:{7:2,3:.5},instinct:{sx:.5,so:.5},big5:{O:2,E:1,N:-.3},temp:{Sanguinis:2},ap:{V:1,L:.5},moral:{liberty:2,outcome:1}}),
+          O("Meminta informasi yang jelas agar bisa menyesuaikan tanpa kehilangan pegangan.",{fn:{Si:3,Te:2},pos:{dom:{Si:1},aux:{Si:1}},ennea:{6:2,1:.5},instinct:{sp:2},big5:{C:2,N:.8},temp:{Plegmatis:1,Melankolis:1},ap:{F:1,L:1},moral:{order:2,loyalty:1}}),
+          O("Masuk ke situasinya, lihat apa yang bisa dilakukan sekarang, lalu gerak.",{fn:{Se:4,Te:1},pos:{dom:{Se:1},aux:{Se:1}},ennea:{8:1,7:1},instinct:{sp:1},big5:{E:1,N:-.5},temp:{Koleris:1,Sanguinis:1},ap:{V:2,F:1},moral:{outcome:2}})
+        ]
+      },
+      {
+        q:"Ketika kamu sedang stres berat, pola yang paling mungkin muncul adalah...",
+        options:[
+          O("Aku jadi terlalu fokus pada hal kecil yang nyata, impulsif, atau ingin segera kabur dari kepala sendiri.",{fn:{Se:2},pos:{inf:{Se:3},shadow:{Se:1}},ennea:{4:1,5:1,1:.5},instinct:{sx:.5,sp:.5},big5:{N:2,E:-.5},temp:{Melankolis:1},ap:{F:.5,E:1},moral:{liberty:1}}),
+          O("Aku jadi membayangkan terlalu banyak kemungkinan buruk dan sulit berhenti berpikir.",{fn:{Ne:2},pos:{inf:{Ne:3},shadow:{Ne:1}},ennea:{6:2,1:.5},instinct:{sp:1},big5:{N:2,O:1},temp:{Melankolis:1,Plegmatis:.5},ap:{L:1},moral:{order:1,truth:1}}),
+          O("Aku jadi takut membuat orang kecewa dan terlalu membaca reaksi mereka.",{fn:{Fe:2},pos:{inf:{Fe:3},shadow:{Fe:1}},ennea:{5:1,9:1,6:.5},instinct:{so:1},big5:{N:2,A:1,E:-.5},temp:{Plegmatis:1},ap:{E:1},moral:{care:2}}),
+          O("Aku jadi keras pada diri sendiri, ingin semuanya cepat selesai dan terukur.",{fn:{Te:2},pos:{inf:{Te:3},shadow:{Te:1}},ennea:{4:1,9:.5,1:.5},instinct:{sp:1},big5:{N:1.5,C:1,A:-.3},temp:{Koleris:.5,Melankolis:1},ap:{V:1},moral:{outcome:2,order:1}})
+        ]
+      },
+      {
+        q:"Saat membuat keputusan penting, mana yang paling berat untuk kamu abaikan?",
+        options:[
+          O("Arah batin dan tanda-tanda kecil yang membuatku merasa ini akan menuju sesuatu.",{fn:{Ni:4,Fi:1},pos:{dom:{Ni:1},aux:{Ni:1}},ennea:{4:1,5:.5,1:.5},instinct:{sx:1},big5:{O:2,N:.5},temp:{Melankolis:2},ap:{L:1,E:1},moral:{truth:1,liberty:1}}),
+          O("Kemungkinan lain yang belum dicoba. Aku takut terlalu cepat menutup pintu.",{fn:{Ne:4,Fi:1},pos:{dom:{Ne:1},aux:{Ne:1}},ennea:{7:2,4:.5},instinct:{sx:1},big5:{O:2,C:-.5},temp:{Sanguinis:1},ap:{E:.5,L:.5},moral:{liberty:3}}),
+          O("Nilai pribadi. Kalau terasa tidak jujur, hasil bagus pun tidak terasa benar.",{fn:{Fi:4,Te:1},pos:{dom:{Fi:2}},ennea:{4:1,1:1,9:.5},instinct:{sx:1,sp:.5},big5:{O:1,A:.5,N:.5},temp:{Melankolis:2},ap:{E:2,V:.5},moral:{truth:2,liberty:1}}),
+          O("Dampak sosial. Aku perlu tahu keputusan ini menyakiti atau membantu siapa.",{fn:{Fe:4,Ni:1},pos:{dom:{Fe:1},aux:{Fe:1}},ennea:{2:2,6:.5,9:.5},instinct:{so:2},big5:{A:2,E:.5},temp:{Plegmatis:1},ap:{E:2},moral:{care:3,justice:1}})
+        ]
+      },
+      {
+        q:"Ketika melihat aturan yang tidak adil, kamu lebih mungkin...",
+        options:[
+          O("Mencari cara memperbaiki sistemnya supaya hasilnya lebih adil.",{fn:{Te:3,Ni:1,Fi:1},pos:{dom:{Te:1},aux:{Te:1}},ennea:{1:2,8:.5,3:.5},instinct:{so:1},big5:{C:2,A:.3},temp:{Koleris:2},ap:{V:2,L:1},moral:{justice:3,order:1}}),
+          O("Menentang karena terasa melanggar nilai dasar manusia.",{fn:{Fi:4,Se:1},pos:{dom:{Fi:1},aux:{Fi:1}},ennea:{4:1,8:1,1:.5},instinct:{sx:1},big5:{O:1,A:.5,N:.5},temp:{Melankolis:1,Koleris:.5},ap:{E:1,V:1},moral:{justice:2,liberty:2}}),
+          O("Mencari alasan kenapa aturan itu dibuat dan apakah logikanya cacat.",{fn:{Ti:4,Ne:1},pos:{dom:{Ti:1},aux:{Ti:1}},ennea:{5:2,1:.5},instinct:{sp:.5},big5:{O:1,C:.5},temp:{Melankolis:1},ap:{L:2},moral:{truth:2,justice:2}}),
+          O("Membicarakannya dengan orang lain agar perubahan tidak membuat kelompok pecah.",{fn:{Fe:3,Si:1,Ne:1},pos:{dom:{Fe:1},aux:{Fe:1}},ennea:{2:1,9:1,6:.5},instinct:{so:2},big5:{A:2,E:.5},temp:{Plegmatis:2},ap:{E:2},moral:{care:2,loyalty:1,justice:1}})
+        ]
+      },
+      {
+        q:"Saat orang lain panik, kamu biasanya...",
+        options:[
+          O("Menjadi tenang, membaca arah masalah, lalu memberi satu gambaran besar.",{fn:{Ni:3,Fe:1,Te:1},pos:{dom:{Ni:1},aux:{Ni:1}},ennea:{5:1,9:1,1:.5},instinct:{so:.5,sp:.5},big5:{N:-.3,A:.8,O:1},temp:{Plegmatis:1,Melankolis:.5},ap:{L:1,V:.5},moral:{care:1,truth:1}}),
+          O("Menghibur, mencairkan suasana, dan membuka beberapa opsi agar tidak buntu.",{fn:{Ne:3,Fe:2},pos:{dom:{Ne:1},aux:{Fe:1}},ennea:{7:1,2:1,9:.5},instinct:{so:1},big5:{E:2,A:1},temp:{Sanguinis:2},ap:{E:2},moral:{care:2,liberty:1}}),
+          O("Mengambil alih langkah praktis yang harus dilakukan sekarang.",{fn:{Te:3,Se:2},pos:{dom:{Te:1,Se:1},aux:{Te:1}},ennea:{8:1,3:1,1:.5},instinct:{sp:1},big5:{C:1,E:1,N:-.5},temp:{Koleris:2},ap:{V:2,F:.5},moral:{outcome:3}}),
+          O("Mengecek fakta, urutan kejadian, dan hal yang sudah pasti dulu.",{fn:{Si:3,Ti:2},pos:{dom:{Si:1},aux:{Ti:1}},ennea:{6:2,5:.5},instinct:{sp:1},big5:{C:1,N:.5,E:-.5},temp:{Melankolis:1,Plegmatis:1},ap:{L:2,F:.5},moral:{truth:2,order:1}})
+        ]
+      },
+      {
+        q:"Kamu paling merasa hidup saat...",
+        options:[
+          O("Menemukan makna tersembunyi dari pengalaman yang tadinya terasa acak.",{fn:{Ni:4,Fi:1},pos:{dom:{Ni:1},aux:{Ni:1}},ennea:{4:1,5:1},instinct:{sx:1},big5:{O:2,N:.5},temp:{Melankolis:2},ap:{L:1,E:1},moral:{truth:2}}),
+          O("Bisa mengeksplor ide, orang, tempat, dan kemungkinan baru.",{fn:{Ne:3,Se:1,Fi:1},pos:{dom:{Ne:1},aux:{Ne:1}},ennea:{7:2,4:.5},instinct:{sx:.5,so:.5},big5:{O:2,E:1},temp:{Sanguinis:2},ap:{E:1,F:.5},moral:{liberty:3}}),
+          O("Bisa membantu orang merasa diterima dan tidak sendirian.",{fn:{Fe:4,Si:1},pos:{dom:{Fe:1},aux:{Fe:1}},ennea:{2:2,9:.5},instinct:{so:1,sx:.5},big5:{A:2,E:.5},temp:{Plegmatis:1,Sanguinis:.5},ap:{E:2},moral:{care:3}}),
+          O("Bisa menyelesaikan sesuatu yang nyata dan melihat hasilnya bekerja.",{fn:{Te:4,Se:1},pos:{dom:{Te:1},aux:{Te:1}},ennea:{3:2,8:.5,1:.5},instinct:{sp:1,so:.5},big5:{C:2,E:.5},temp:{Koleris:2},ap:{V:2},moral:{outcome:3}})
+        ]
+      },
+      {
+        q:"Kalau kamu diberi banyak data berantakan, kamu akan...",
+        options:[
+          O("Mencari pola besar yang menghubungkan semuanya.",{fn:{Ni:4,Ti:1},pos:{dom:{Ni:1},aux:{Ni:1}},ennea:{5:2},instinct:{sp:1},big5:{O:2,C:.5},temp:{Melankolis:2},ap:{L:2},moral:{truth:2}}),
+          O("Membuat beberapa cara membaca data itu, karena mungkin ada lebih dari satu makna.",{fn:{Ne:4,Ti:1},pos:{dom:{Ne:1},aux:{Ne:1}},ennea:{7:1,5:1},instinct:{sx:.5},big5:{O:2},temp:{Sanguinis:1,Melankolis:.5},ap:{L:1},moral:{truth:1,liberty:1}}),
+          O("Mengurutkan dari yang paling penting, lalu membuat daftar tindakan.",{fn:{Te:4,Si:1},pos:{dom:{Te:1},aux:{Te:1}},ennea:{3:1,1:1},instinct:{sp:1},big5:{C:2},temp:{Koleris:2},ap:{V:1,L:1},moral:{outcome:2,order:1}}),
+          O("Mengecek asal data, bukti lama, dan apakah informasinya bisa dipercaya.",{fn:{Si:3,Ti:2},pos:{dom:{Si:1},aux:{Ti:1}},ennea:{6:1,5:1},instinct:{sp:2},big5:{C:1,N:.3},temp:{Melankolis:1,Plegmatis:1},ap:{L:2,F:.5},moral:{truth:2,order:1}})
+        ]
+      },
+      {
+        q:"Saat seseorang melanggar batasmu, respons yang paling dekat adalah...",
+        options:[
+          O("Aku merasa nilai pribadiku disentuh, lalu butuh jarak untuk menenangkan diri.",{fn:{Fi:4,Si:1},pos:{dom:{Fi:1},inf:{Te:.5}},ennea:{4:1,9:1},instinct:{sx:1,sp:.5},big5:{N:1.5,A:.3,E:-.5},temp:{Melankolis:2},ap:{E:2},moral:{liberty:1,truth:1}}),
+          O("Aku mencoba menyampaikan batas dengan cara yang tidak mempermalukan siapa pun.",{fn:{Fe:3,Ti:1,Si:1},pos:{dom:{Fe:1},aux:{Fe:1}},ennea:{2:1,9:1,1:.5},instinct:{so:1},big5:{A:2,C:.5},temp:{Plegmatis:2},ap:{E:2},moral:{care:2,justice:1}}),
+          O("Aku langsung mengatakan batasnya jelas dan konsekuensinya apa.",{fn:{Te:3,Se:1,Fi:1},pos:{dom:{Te:1},aux:{Te:1}},ennea:{8:2,1:.5},instinct:{sp:1},big5:{C:1,E:.5,A:-.3},temp:{Koleris:2},ap:{V:2},moral:{justice:2,outcome:1}}),
+          O("Aku membedah apakah batas itu masuk akal, lalu menjelaskan alasan yang tepat.",{fn:{Ti:4,Fe:1},pos:{dom:{Ti:1},aux:{Ti:1}},ennea:{5:2,1:.5},instinct:{sp:1},big5:{O:1,A:.2,E:-.5},temp:{Melankolis:1},ap:{L:2},moral:{truth:2,justice:1}})
+        ]
+      },
+      {
+        q:"Ketika kamu berhasil, apa yang paling membuatmu puas?",
+        options:[
+          O("Aku merasa berhasil menjaga integritas diri dan tidak kehilangan siapa aku.",{fn:{Fi:4,Te:1},pos:{dom:{Fi:1},aux:{Fi:1}},ennea:{4:1,1:1},instinct:{sx:1},big5:{O:1,C:.5},temp:{Melankolis:1},ap:{E:1,V:1},moral:{truth:2,liberty:1}}),
+          O("Hasilnya terlihat nyata, diakui, dan bisa dipakai untuk langkah berikutnya.",{fn:{Te:4,Se:1},pos:{dom:{Te:1},aux:{Te:1}},ennea:{3:2,8:.5},instinct:{so:1,sp:.5},big5:{C:2,E:.5},temp:{Koleris:2},ap:{V:2},moral:{outcome:3}}),
+          O("Aku memahami sesuatu lebih dalam daripada sebelumnya.",{fn:{Ti:3,Ni:2},pos:{dom:{Ti:1,Ni:.5},aux:{Ti:1}},ennea:{5:2},instinct:{sp:1},big5:{O:2,E:-.5},temp:{Melankolis:2},ap:{L:2},moral:{truth:3}}),
+          O("Orang-orang ikut terbantu dan suasana menjadi lebih baik.",{fn:{Fe:4,Si:1},pos:{dom:{Fe:1},aux:{Fe:1}},ennea:{2:2,9:.5,3:.5},instinct:{so:2},big5:{A:2,E:.5},temp:{Plegmatis:1,Sanguinis:.5},ap:{E:2},moral:{care:3,loyalty:1}})
+        ]
+      },
+      {
+        q:"Saat merasa ditolak, kamu lebih sering...",
+        options:[
+          O("Mencari makna di balik penolakan itu dan diam-diam menebak arah hubungan setelahnya.",{fn:{Ni:3,Fi:1,Fe:1},pos:{dom:{Ni:1},inf:{Se:.5}},ennea:{4:2,5:.5},instinct:{sx:2},big5:{N:2,O:1,E:-1},temp:{Melankolis:2},ap:{E:1,L:1},moral:{truth:1,care:1}}),
+          O("Bertanya-tanya banyak kemungkinan: apakah salahku, waktunya, atau dia memang begitu.",{fn:{Ne:3,Fe:1,Fi:1},pos:{dom:{Ne:1},inf:{Si:.5}},ennea:{6:1,7:.5,4:.5},instinct:{sx:1,so:.5},big5:{N:2,O:1},temp:{Melankolis:1,Sanguinis:.5},ap:{E:1,L:.5},moral:{care:1,truth:1}}),
+          O("Mundur untuk menjaga harga diri dan perasaan batinku.",{fn:{Fi:4,Si:1},pos:{dom:{Fi:1},inf:{Te:.5}},ennea:{4:2,9:.5},instinct:{sx:1},big5:{N:1.5,E:-1},temp:{Melankolis:2},ap:{E:2},moral:{liberty:1,truth:1}}),
+          O("Mencoba tetap terlihat baik-baik saja dan tidak membuat keadaan makin canggung.",{fn:{Fe:4,Se:1},pos:{dom:{Fe:1},inf:{Ti:.5}},ennea:{2:1,3:.5,9:1},instinct:{so:1},big5:{A:2,N:1,E:.5},temp:{Plegmatis:1},ap:{E:2,F:.5},moral:{care:2,loyalty:1}})
+        ]
+      },
+      {
+        q:"Mana yang paling sering menjadi kelemahanmu saat tekanan tinggi?",
+        options:[
+          O("Terlalu lama mencari makna sampai sulit melakukan hal kecil yang nyata.",{fn:{Ni:2},pos:{dom:{Ni:1},inf:{Se:2}},ennea:{4:1,5:1},instinct:{sp:.5},big5:{N:1.5,O:1,C:-.5},temp:{Melankolis:2},ap:{L:1},moral:{truth:1}}),
+          O("Terlalu banyak ide sampai sulit memilih satu dan menyelesaikannya.",{fn:{Ne:2},pos:{dom:{Ne:1},inf:{Si:2}},ennea:{7:2,6:.5},instinct:{sx:.5},big5:{O:2,C:-1,N:.5},temp:{Sanguinis:1},ap:{E:.5,L:.5},moral:{liberty:2}}),
+          O("Terlalu menahan diri demi aman, sampai peluang baru terasa menakutkan.",{fn:{Si:2},pos:{dom:{Si:1},inf:{Ne:2}},ennea:{6:2,9:.5},instinct:{sp:2},big5:{C:1,N:1,O:-.5},temp:{Plegmatis:2},ap:{F:1},moral:{order:2}}),
+          O("Terlalu cepat bertindak dan baru sadar perasaan orang belakangan.",{fn:{Se:2},pos:{dom:{Se:1},inf:{Ni:2}},ennea:{8:1,7:1},instinct:{sp:.5,sx:.5},big5:{E:1,N:-.2,A:-.5},temp:{Koleris:1,Sanguinis:1},ap:{V:1,F:1},moral:{outcome:2}})
+        ]
+      },
+      {
+        q:"Dalam percakapan, kamu paling mudah tertarik pada orang yang...",
+        options:[
+          O("Punya kedalaman dan seolah menyimpan makna di balik kata-katanya.",{fn:{Ni:3,Fi:1},pos:{aux:{Ni:1}},ennea:{4:1,5:1},instinct:{sx:2},big5:{O:2},temp:{Melankolis:1},ap:{L:1,E:.5},moral:{truth:1}}),
+          O("Bisa melompat dari satu ide ke ide lain dan membuat dunia terasa luas.",{fn:{Ne:4},pos:{aux:{Ne:1}},ennea:{7:2},instinct:{sx:1,so:.5},big5:{O:2,E:1},temp:{Sanguinis:2},ap:{E:.5,L:.5},moral:{liberty:2}}),
+          O("Punya sikap hangat, tahu cara membaca suasana, dan membuat orang nyaman.",{fn:{Fe:4},pos:{aux:{Fe:1}},ennea:{2:2,9:.5},instinct:{so:2},big5:{A:2,E:.5},temp:{Plegmatis:1,Sanguinis:.5},ap:{E:2},moral:{care:3}}),
+          O("Jelas, tegas, bisa diandalkan, dan tidak membuat semuanya menggantung.",{fn:{Te:3,Si:1},pos:{aux:{Te:1}},ennea:{3:1,1:1,8:.5},instinct:{sp:1,so:.5},big5:{C:2},temp:{Koleris:1},ap:{V:1,L:.5},moral:{order:1,outcome:2}})
+        ]
+      },
+      {
+        q:"Ketika menilai masa depan, kamu biasanya...",
+        options:[
+          O("Melihat satu garis besar yang terasa paling mungkin terjadi.",{fn:{Ni:4},pos:{dom:{Ni:1},aux:{Ni:1}},ennea:{5:1,4:.5,1:.5},instinct:{sp:.5,sx:.5},big5:{O:2,C:.5},temp:{Melankolis:2},ap:{L:1},moral:{truth:1}}),
+          O("Melihat banyak skenario yang bisa berubah tergantung pilihan kecil.",{fn:{Ne:4},pos:{dom:{Ne:1},aux:{Ne:1}},ennea:{7:1,6:.5,5:.5},instinct:{sx:.5,so:.5},big5:{O:2},temp:{Sanguinis:1},ap:{L:.5,E:.5},moral:{liberty:2}}),
+          O("Melihat apakah pola masa lalu mendukung kemungkinan itu.",{fn:{Si:4},pos:{dom:{Si:1},aux:{Si:1}},ennea:{6:2,1:.5},instinct:{sp:2},big5:{C:1,N:.3,O:-.3},temp:{Plegmatis:1,Melankolis:1},ap:{F:1,L:.5},moral:{order:2}}),
+          O("Melihat langkah konkret terdekat yang bisa membuat masa depan itu terjadi.",{fn:{Te:3,Se:1},pos:{dom:{Te:1},aux:{Te:1}},ennea:{3:1,8:.5,1:.5},instinct:{sp:1},big5:{C:2},temp:{Koleris:2},ap:{V:2},moral:{outcome:2}})
+        ]
+      },
+      {
+        q:"Kalau ada teman melakukan kesalahan, kamu cenderung...",
+        options:[
+          O("Mencoba memahami alasan batinnya dulu sebelum menilai.",{fn:{Fi:3,Ni:1},pos:{dom:{Fi:1},aux:{Fi:1}},ennea:{4:1,9:1,2:.5},instinct:{sx:.5},big5:{A:1,O:1},temp:{Melankolis:1,Plegmatis:.5},ap:{E:2},moral:{care:1,truth:1}}),
+          O("Melihat dampaknya ke orang lain dan membantu memperbaiki suasana.",{fn:{Fe:4,Si:1},pos:{dom:{Fe:1},aux:{Fe:1}},ennea:{2:2,9:.5},instinct:{so:2},big5:{A:2,E:.5},temp:{Plegmatis:2},ap:{E:2},moral:{care:3,loyalty:1}}),
+          O("Mengecek bagian mana yang salah agar dia tidak mengulangi pola yang sama.",{fn:{Ti:3,Si:1,Te:1},pos:{dom:{Ti:1},aux:{Ti:1}},ennea:{5:1,1:1},instinct:{sp:1},big5:{C:1,O:.5},temp:{Melankolis:1},ap:{L:2},moral:{truth:2,justice:1}}),
+          O("Langsung membantu membuat solusi supaya kerusakannya tidak melebar.",{fn:{Te:4,Se:1},pos:{dom:{Te:1},aux:{Te:1}},ennea:{3:1,8:.5,1:.5},instinct:{sp:1,so:.5},big5:{C:2,E:.5},temp:{Koleris:2},ap:{V:2},moral:{outcome:3,care:.5}})
+        ]
+      },
+      {
+        q:"Kalau hidupmu terasa terlalu datar, kamu biasanya butuh...",
+        options:[
+          O("Makna baru yang membuat semua pengalaman terasa punya arah.",{fn:{Ni:3,Fi:1},pos:{dom:{Ni:1}},ennea:{4:1,5:.5,1:.5},instinct:{sx:1},big5:{O:2,N:.5},temp:{Melankolis:2},ap:{L:1,E:1},moral:{truth:2}}),
+          O("Pengalaman baru, orang baru, atau ide baru yang membuka udara segar.",{fn:{Ne:3,Se:1},pos:{dom:{Ne:1,Se:.5}},ennea:{7:2},instinct:{sx:.5,so:.5},big5:{O:2,E:1},temp:{Sanguinis:2},ap:{F:.5,E:.5},moral:{liberty:3}}),
+          O("Ritme yang lebih stabil agar aku bisa merasa aman lagi.",{fn:{Si:4},pos:{dom:{Si:1}},ennea:{6:1,9:1},instinct:{sp:2},big5:{C:1,N:.5,O:-.2},temp:{Plegmatis:2},ap:{F:2},moral:{order:2}}),
+          O("Target jelas yang bisa kukejar supaya energi kembali bergerak.",{fn:{Te:4},pos:{dom:{Te:1}},ennea:{3:2,8:.5},instinct:{sp:1},big5:{C:2,E:.5},temp:{Koleris:2},ap:{V:2},moral:{outcome:3}})
+        ]
+      },
+      {
+        q:"Saat ada momen emosional, kamu biasanya...",
+        options:[
+          O("Merasakan dalam, tapi sering memprosesnya diam-diam di dalam diri.",{fn:{Fi:4,Ni:1},pos:{dom:{Fi:1},aux:{Fi:1}},ennea:{4:2,9:.5},instinct:{sx:1},big5:{N:1.5,O:1,E:-.5},temp:{Melankolis:2},ap:{E:2},moral:{truth:1,care:1}}),
+          O("Membaca ekspresi orang dan mencoba menyesuaikan agar suasana aman.",{fn:{Fe:4,Se:1},pos:{dom:{Fe:1},aux:{Fe:1}},ennea:{2:2,9:.5},instinct:{so:2},big5:{A:2,E:.5,N:.5},temp:{Plegmatis:2},ap:{E:2},moral:{care:3}}),
+          O("Butuh waktu memahami apa yang sebenarnya terjadi secara logis.",{fn:{Ti:3,Ni:1},pos:{dom:{Ti:1},aux:{Ti:1}},ennea:{5:2},instinct:{sp:1},big5:{O:1,E:-1,N:.5},temp:{Melankolis:1},ap:{L:2,E:-.3},moral:{truth:2}}),
+          O("Cenderung melakukan sesuatu: menolong, memperbaiki, atau mengalihkan keadaan.",{fn:{Se:2,Te:2,Fe:1},pos:{dom:{Se:1,Te:.5}},ennea:{8:1,3:.5,2:.5},instinct:{sp:.5,so:.5},big5:{E:1,C:.5,N:-.3},temp:{Koleris:1,Sanguinis:.5},ap:{V:1,F:1},moral:{outcome:2,care:1}})
+        ]
+      },
+      {
+        q:"Saat kamu harus memimpin, gaya yang paling alami adalah...",
+        options:[
+          O("Memberi arah besar dan membuat orang paham tujuan di balik kerja itu.",{fn:{Ni:3,Fe:1,Te:1},pos:{dom:{Ni:1},aux:{Ni:1}},ennea:{1:1,5:.5,3:.5},instinct:{so:1},big5:{O:1,C:1,E:.5},temp:{Melankolis:1,Koleris:.5},ap:{V:1,L:1},moral:{truth:1,order:1,care:1}}),
+          O("Membuat suasana kompak, menjaga semangat, dan membaca kebutuhan tiap orang.",{fn:{Fe:4,Ne:1},pos:{dom:{Fe:1},aux:{Fe:1}},ennea:{2:2,3:.5,9:.5},instinct:{so:2},big5:{A:2,E:1},temp:{Sanguinis:1,Plegmatis:1},ap:{E:2,V:.5},moral:{care:3,loyalty:1}}),
+          O("Mengatur sistem, target, tenggat, dan hasil yang harus dicapai.",{fn:{Te:4,Si:1},pos:{dom:{Te:1},aux:{Te:1}},ennea:{3:2,8:1,1:.5},instinct:{so:1,sp:1},big5:{C:2,E:.5,A:-.3},temp:{Koleris:2},ap:{V:2,L:1},moral:{outcome:3,order:1}}),
+          O("Memberi ruang eksplorasi dan mengajak orang mencoba ide yang tidak biasa.",{fn:{Ne:4,Fe:1},pos:{dom:{Ne:1},aux:{Ne:1}},ennea:{7:2,3:.5},instinct:{so:1},big5:{O:2,E:1,C:-.3},temp:{Sanguinis:2},ap:{E:1,V:.5},moral:{liberty:3,care:.5}})
+        ]
+      },
+      {
+        q:"Kamu paling tidak nyaman ketika...",
+        options:[
+          O("Semua orang menuntut keputusan cepat sebelum aku paham arahnya.",{fn:{Ni:2,Ti:1},pos:{inf:{Se:2},dom:{Ni:.5}},ennea:{5:1,6:.5,4:.5},instinct:{sp:1},big5:{N:1.5,E:-.5},temp:{Melankolis:2},ap:{L:1},moral:{truth:1}}),
+          O("Semua kemungkinan ditutup terlalu cepat dan orang berkata, 'ikut saja aturan lama'.",{fn:{Ne:2,Fi:1},pos:{inf:{Si:2},dom:{Ne:.5}},ennea:{7:2,4:.5},instinct:{sx:.5},big5:{O:2,C:-.5},temp:{Sanguinis:1},ap:{E:.5},moral:{liberty:3}}),
+          O("Tidak ada aturan, tidak ada pegangan, dan semuanya berubah mendadak.",{fn:{Si:2,Te:1},pos:{inf:{Ne:2},dom:{Si:.5}},ennea:{6:2,1:.5},instinct:{sp:2},big5:{C:1,N:1.5,O:-.5},temp:{Plegmatis:2},ap:{F:1,L:.5},moral:{order:3}}),
+          O("Aku dikurung dalam teori panjang padahal masalahnya butuh tindakan sekarang.",{fn:{Se:2,Te:1},pos:{inf:{Ni:2},dom:{Se:.5}},ennea:{8:1,7:1},instinct:{sp:.5},big5:{E:1,N:.2,C:.5},temp:{Koleris:1,Sanguinis:1},ap:{V:1,F:1},moral:{outcome:2}})
+        ]
+      },
+      {
+        q:"Saat membaca orang lain, kamu lebih sering mengandalkan...",
+        options:[
+          O("Pola kecil yang terasa mengarah ke satu kesimpulan tentang niatnya.",{fn:{Ni:4,Fe:1},pos:{dom:{Ni:1},aux:{Ni:1}},ennea:{5:1,4:.5,6:.5},instinct:{sx:.5,so:.5},big5:{O:2,N:.5},temp:{Melankolis:2},ap:{L:1,E:.5},moral:{truth:2}}),
+          O("Banyak kemungkinan tentang alasan dia begitu, jadi aku tidak cepat mengunci kesimpulan.",{fn:{Ne:4,Fe:1},pos:{dom:{Ne:1},aux:{Ne:1}},ennea:{7:.5,6:1,9:.5},instinct:{so:1},big5:{O:2,A:.5},temp:{Sanguinis:1},ap:{L:.5,E:.5},moral:{care:1,liberty:1}}),
+          O("Kebiasaan dia dari waktu ke waktu, bukan hanya satu kejadian.",{fn:{Si:4,Fe:1},pos:{dom:{Si:1},aux:{Si:1}},ennea:{6:1,9:1,2:.5},instinct:{sp:.5,so:1},big5:{C:1,A:1},temp:{Plegmatis:2},ap:{F:1,E:.5},moral:{loyalty:2,care:1}}),
+          O("Bahasa tubuh, nada suara, dan tindakan nyata saat itu.",{fn:{Se:4,Ti:1},pos:{dom:{Se:1},aux:{Se:1}},ennea:{8:.5,7:.5,3:.5},instinct:{so:.5,sp:.5},big5:{E:1,N:-.3},temp:{Sanguinis:1,Koleris:.5},ap:{F:1,L:.5},moral:{truth:1,outcome:1}})
+        ]
+      },
+      {
+        q:"Ketika kamu harus memilih antara aman dan jujur pada diri sendiri, kamu cenderung...",
+        options:[
+          O("Memilih yang jujur pada diri, meski pelan dan menakutkan.",{fn:{Fi:4,Ni:1},pos:{dom:{Fi:1},aux:{Fi:1}},ennea:{4:2,1:.5},instinct:{sx:1},big5:{O:1,N:1},temp:{Melankolis:2},ap:{E:2,V:.5},moral:{truth:2,liberty:2}}),
+          O("Memilih yang aman dulu kalau risikonya terlalu besar.",{fn:{Si:3,Fe:1},pos:{dom:{Si:1},aux:{Si:1}},ennea:{6:2,9:.5},instinct:{sp:2},big5:{C:1,N:1,O:-.3},temp:{Plegmatis:2},ap:{F:2},moral:{order:2,loyalty:1}}),
+          O("Mencari jalan tengah yang tidak mengkhianati diri dan tidak merusak orang lain.",{fn:{Fe:2,Fi:2,Ni:1},pos:{aux:{Fe:1,Fi:.5}},ennea:{9:2,2:.5,4:.5},instinct:{so:1,sx:.5},big5:{A:2,N:.5},temp:{Plegmatis:2},ap:{E:2},moral:{care:2,truth:1}}),
+          O("Melihat mana yang paling efektif untuk hidup jangka panjang, bukan hanya terasa benar sekarang.",{fn:{Te:3,Ni:1},pos:{dom:{Te:1},aux:{Ni:.5}},ennea:{3:1,1:1,8:.5},instinct:{sp:1},big5:{C:2,N:-.2},temp:{Koleris:2},ap:{V:2,L:.5},moral:{outcome:2,order:1}})
+        ]
+      },
+      {
+        q:"Kalau diminta membuat karya, kamu paling ingin karya itu...",
+        options:[
+          O("Punya makna tersembunyi dan terasa menyentuh sesuatu yang dalam.",{fn:{Ni:3,Fi:2},pos:{dom:{Ni:1,Fi:.5}},ennea:{4:2,5:.5},instinct:{sx:1},big5:{O:2,N:.5},temp:{Melankolis:2},ap:{E:1,L:1},moral:{truth:2}}),
+          O("Penuh ide segar, twist, dan kemungkinan tafsir yang banyak.",{fn:{Ne:4,Fi:1},pos:{dom:{Ne:1}},ennea:{7:1,4:1},instinct:{sx:.5},big5:{O:2},temp:{Sanguinis:1},ap:{E:1,L:.5},moral:{liberty:2,truth:1}}),
+          O("Rapi, kuat, berfungsi, dan bisa dipahami jelas oleh orang.",{fn:{Te:3,Si:1,Fe:1},pos:{dom:{Te:1},aux:{Te:.5}},ennea:{1:1,3:1},instinct:{so:.5,sp:.5},big5:{C:2,A:.5},temp:{Koleris:1},ap:{V:1,L:1},moral:{order:2,outcome:1}}),
+          O("Terasa hidup, indah secara nyata, dan punya pengalaman yang bisa dirasakan.",{fn:{Se:3,Fi:2},pos:{dom:{Se:.5,Fi:.5},aux:{Se:1}},ennea:{4:1,7:.5,3:.5},instinct:{sx:1},big5:{O:1,E:.5},temp:{Sanguinis:1,Melankolis:.5},ap:{F:1,E:1},moral:{liberty:1,care:1}})
+        ]
+      },
+      {
+        q:"Kalau seseorang meminta nasihat cinta, kamu paling mungkin berkata...",
+        options:[
+          O("Lihat pola tindakannya, bukan hanya kata manisnya.",{fn:{Ni:3,Se:1,Ti:1},pos:{dom:{Ni:1},aux:{Ni:.5}},ennea:{5:1,6:.5,4:.5},instinct:{sx:1},big5:{O:1,C:.5},temp:{Melankolis:1},ap:{L:1},moral:{truth:2}}),
+          O("Jangan tutup kemungkinan terlalu cepat, tapi jangan hilang arah juga.",{fn:{Ne:3,Fi:1,Ti:1},pos:{dom:{Ne:1}},ennea:{7:1,6:.5,4:.5},instinct:{sx:.5},big5:{O:2},temp:{Sanguinis:1},ap:{E:.5,L:.5},moral:{liberty:2,truth:1}}),
+          O("Jujur pada perasaanmu, tapi jangan paksa orang lain ikut ritmemu.",{fn:{Fi:3,Fe:1},pos:{dom:{Fi:1},aux:{Fi:.5}},ennea:{4:1,9:1,2:.5},instinct:{sx:1},big5:{A:1,N:.5},temp:{Melankolis:1,Plegmatis:.5},ap:{E:2},moral:{care:1,truth:1,liberty:1}}),
+          O("Bicarakan dengan jelas. Hubungan butuh tindakan, bukan tebak-tebakan selamanya.",{fn:{Te:3,Fe:1,Se:1},pos:{dom:{Te:1},aux:{Te:.5}},ennea:{3:.5,8:.5,1:.5},instinct:{so:.5},big5:{C:1,E:.5},temp:{Koleris:1},ap:{V:1,E:.5},moral:{outcome:2,care:1}})
+        ]
+      },
+      {
+        q:"Dalam hal uang dan keamanan hidup, kamu cenderung...",
+        options:[
+          O("Butuh rasa aman dan cadangan, karena ketidakpastian mudah membuatku waspada.",{fn:{Si:3,Te:1},pos:{dom:{Si:1}},ennea:{6:2,1:.5},instinct:{sp:3},big5:{C:2,N:1,O:-.3},temp:{Plegmatis:1,Melankolis:1},ap:{F:2},moral:{order:2,outcome:1}}),
+          O("Menyusun target jelas agar hidup terasa bergerak dan tidak pasif.",{fn:{Te:4,Ni:1},pos:{dom:{Te:1},aux:{Te:.5}},ennea:{3:2,8:.5},instinct:{sp:2},big5:{C:2,E:.3},temp:{Koleris:2},ap:{V:2,F:.5},moral:{outcome:3}}),
+          O("Tidak mau hidupku hanya soal aman; aku tetap butuh makna dan kebebasan.",{fn:{Fi:3,Ne:1},pos:{dom:{Fi:1},aux:{Ne:.5}},ennea:{4:1,7:1},instinct:{sx:1,sp:.5},big5:{O:2,N:.5},temp:{Melankolis:1,Sanguinis:.5},ap:{E:1,V:.5},moral:{liberty:2,truth:1}}),
+          O("Cukup fleksibel; yang penting bisa menyesuaikan peluang nyata yang muncul.",{fn:{Se:3,Te:1,Ne:1},pos:{dom:{Se:.5,Ne:.5}},ennea:{7:1,8:.5,3:.5},instinct:{sp:1,sx:.5},big5:{E:1,O:1,N:-.5},temp:{Sanguinis:1,Koleris:.5},ap:{F:1,V:1},moral:{liberty:1,outcome:1}})
+        ]
+      },
+      {
+        q:"Ketika mendengar kritik, kamu paling sensitif jika kritik itu menyentuh...",
+        options:[
+          O("Keaslian diriku, seolah aku palsu atau tidak punya hati.",{fn:{Fi:4},pos:{dom:{Fi:1},inf:{Te:.5}},ennea:{4:2,9:.5},instinct:{sx:1},big5:{N:2,O:1},temp:{Melankolis:2},ap:{E:2},moral:{truth:2,liberty:1}}),
+          O("Kemampuanku berpikir, seolah alasanku tidak masuk akal.",{fn:{Ti:4},pos:{dom:{Ti:1},inf:{Fe:.5}},ennea:{5:2,1:.5},instinct:{sp:1},big5:{N:1,O:1,E:-.5},temp:{Melankolis:1},ap:{L:2},moral:{truth:3}}),
+          O("Cara kerjaku, seolah aku tidak efektif atau tidak berguna.",{fn:{Te:4},pos:{dom:{Te:1},inf:{Fi:.5}},ennea:{3:2,8:.5,1:.5},instinct:{so:.5,sp:.5},big5:{C:1,N:1},temp:{Koleris:1},ap:{V:2},moral:{outcome:2}}),
+          O("Cara aku memperlakukan orang, seolah aku membuat orang tidak nyaman.",{fn:{Fe:4},pos:{dom:{Fe:1},inf:{Ti:.5}},ennea:{2:2,9:.5,6:.5},instinct:{so:1},big5:{A:2,N:1.5},temp:{Plegmatis:1},ap:{E:2},moral:{care:3}})
+        ]
+      },
+      {
+        q:"Saat kamu melihat masalah sosial, fokusmu sering jatuh pada...",
+        options:[
+          O("Akar pola yang membuat masalah itu terus berulang.",{fn:{Ni:3,Ti:1},pos:{dom:{Ni:1}},ennea:{5:1,1:1},instinct:{so:1},big5:{O:2,C:.5},temp:{Melankolis:2},ap:{L:2},moral:{truth:2,justice:1}}),
+          O("Orang-orang yang terluka dan bagaimana suasana bisa dipulihkan.",{fn:{Fe:4,Si:1},pos:{dom:{Fe:1}},ennea:{2:2,9:.5},instinct:{so:2},big5:{A:2,N:.5},temp:{Plegmatis:2},ap:{E:2},moral:{care:3,justice:1}}),
+          O("Sistem yang tidak bekerja dan harus diperbaiki secara nyata.",{fn:{Te:4,Ni:1},pos:{dom:{Te:1}},ennea:{1:2,8:1},instinct:{so:1,sp:.5},big5:{C:2,A:.2},temp:{Koleris:2},ap:{V:2,L:.5},moral:{justice:2,outcome:2}}),
+          O("Kemungkinan pendekatan baru yang belum pernah dicoba.",{fn:{Ne:4,Fi:1},pos:{dom:{Ne:1}},ennea:{7:1,4:.5,1:.5},instinct:{so:1,sx:.5},big5:{O:2,E:.5},temp:{Sanguinis:1},ap:{E:.5,L:.5},moral:{liberty:2,justice:1}})
+        ]
+      },
+      {
+        q:"Kalau semua orang di kelompokmu diam, kamu biasanya...",
+        options:[
+          O("Membaca dulu kenapa mereka diam, lalu memilih kalimat yang aman.",{fn:{Fe:3,Ni:1},pos:{aux:{Fe:1},dom:{Ni:.5}},ennea:{2:1,9:1,6:.5},instinct:{so:1},big5:{A:2,N:.5},temp:{Plegmatis:2},ap:{E:2},moral:{care:2}}),
+          O("Mengajukan ide pembuka supaya suasana bergerak.",{fn:{Ne:3,Fe:1},pos:{dom:{Ne:.5},aux:{Fe:.5}},ennea:{7:1,2:.5,3:.5},instinct:{so:1},big5:{E:2,O:1},temp:{Sanguinis:2},ap:{E:1,V:.5},moral:{care:1,liberty:1}}),
+          O("Langsung menanyakan keputusan atau tugas yang perlu diselesaikan.",{fn:{Te:3,Se:1},pos:{dom:{Te:1}},ennea:{3:1,8:.5},instinct:{so:.5,sp:.5},big5:{E:1,C:1},temp:{Koleris:1},ap:{V:2},moral:{outcome:2}}),
+          O("Menunggu sebentar sambil mengamati apakah diamnya punya alasan jelas.",{fn:{Ti:2,Si:1,Ni:1},pos:{dom:{Ti:.5},aux:{Si:.5}},ennea:{5:1,9:.5,6:.5},instinct:{sp:1},big5:{E:-1,O:.5},temp:{Melankolis:1,Plegmatis:.5},ap:{L:1},moral:{truth:1,order:1}})
+        ]
+      },
+      {
+        q:"Kamu merasa paling aman dengan orang yang...",
+        options:[
+          O("Konsisten, bisa dipercaya, dan tidak berubah-ubah tanpa alasan.",{fn:{Si:4,Fe:1},pos:{dom:{Si:1}},ennea:{6:2,9:.5},instinct:{sp:2},big5:{C:1,A:1},temp:{Plegmatis:2},ap:{F:2},moral:{loyalty:2,order:1}}),
+          O("Menghargai batas dan nilai pribadi tanpa memaksa.",{fn:{Fi:3,Ti:1},pos:{dom:{Fi:1}},ennea:{4:1,9:1,5:.5},instinct:{sx:.5,sp:.5},big5:{A:1,O:1},temp:{Melankolis:1,Plegmatis:.5},ap:{E:1,L:.5},moral:{liberty:2,care:1}}),
+          O("Hangat, responsif, dan membuat komunikasi terasa manusiawi.",{fn:{Fe:4},pos:{dom:{Fe:1}},ennea:{2:2,9:.5},instinct:{so:1,sx:.5},big5:{A:2,E:.5},temp:{Plegmatis:1,Sanguinis:.5},ap:{E:2},moral:{care:3}}),
+          O("Jelas, tegas, dan tidak membuatku harus menebak terus.",{fn:{Te:3,Se:1},pos:{dom:{Te:.5},aux:{Te:.5}},ennea:{8:1,3:.5,1:.5},instinct:{sp:1},big5:{C:1,E:.5},temp:{Koleris:1},ap:{V:1,L:.5},moral:{truth:1,outcome:1,order:1}})
+        ]
+      },
+      {
+        q:"Dalam debat, kamu cenderung...",
+        options:[
+          O("Membedah definisi dan alasan sampai inti argumennya jelas.",{fn:{Ti:4,Ne:1},pos:{dom:{Ti:1}},ennea:{5:2,1:.5},instinct:{sp:.5},big5:{O:1,E:-.3,A:-.2},temp:{Melankolis:1},ap:{L:2},moral:{truth:3}}),
+          O("Menunjukkan dampak nyata dan solusi yang paling bekerja.",{fn:{Te:4,Se:1},pos:{dom:{Te:1}},ennea:{3:1,8:1,1:.5},instinct:{so:.5,sp:.5},big5:{C:1,E:.5,A:-.3},temp:{Koleris:2},ap:{V:2,L:.5},moral:{outcome:3}}),
+          O("Membawa sudut pandang lain agar debat tidak sempit.",{fn:{Ne:4,Ti:1},pos:{dom:{Ne:1}},ennea:{7:1,5:1},instinct:{so:.5},big5:{O:2,E:.5},temp:{Sanguinis:1},ap:{L:1,E:.5},moral:{liberty:2,truth:1}}),
+          O("Menjaga agar kebenaran tetap disampaikan tanpa merendahkan orang.",{fn:{Fe:3,Ti:1,Fi:1},pos:{dom:{Fe:.5},aux:{Fe:1}},ennea:{2:1,1:1,9:.5},instinct:{so:1},big5:{A:2,C:.5},temp:{Plegmatis:1},ap:{E:2,L:.5},moral:{care:2,justice:1,truth:1}})
+        ]
+      },
+      {
+        q:"Kalau kamu mengingat masa lalu, biasanya yang paling kuat adalah...",
+        options:[
+          O("Detail suasana, kebiasaan, tempat, dan hal yang pernah terjadi berulang.",{fn:{Si:4,Fi:1},pos:{dom:{Si:1}},ennea:{6:1,9:1,4:.5},instinct:{sp:1},big5:{C:1,N:.5},temp:{Plegmatis:1,Melankolis:1},ap:{F:1,E:.5},moral:{loyalty:2}}),
+          O("Makna dari masa lalu itu dan bagaimana ia membentuk arah hidupku.",{fn:{Ni:3,Fi:2},pos:{dom:{Ni:1}},ennea:{4:2,5:.5},instinct:{sx:1},big5:{O:2,N:.5},temp:{Melankolis:2},ap:{E:1,L:1},moral:{truth:2}}),
+          O("Pelajaran praktis: apa yang berhasil, gagal, dan harus diperbaiki.",{fn:{Te:3,Si:2},pos:{dom:{Te:.5,Si:.5}},ennea:{1:1,3:1,6:.5},instinct:{sp:1},big5:{C:2},temp:{Koleris:1,Melankolis:.5},ap:{V:1,L:1},moral:{outcome:2,order:1}}),
+          O("Kaitan ke ide lain, kemungkinan lain, atau versi hidup yang bisa terjadi.",{fn:{Ne:4,Fi:1},pos:{dom:{Ne:1}},ennea:{7:1,4:1},instinct:{sx:.5},big5:{O:2,N:.5},temp:{Sanguinis:1},ap:{E:.5,L:.5},moral:{liberty:2}})
+        ]
+      },
+      {
+        q:"Saat tubuhmu lelah dan pikiranmu penuh, yang paling membantumu kembali stabil adalah...",
+        options:[
+          O("Ritme sederhana, tempat yang familiar, dan mengurangi kejutan.",{fn:{Si:4},pos:{dom:{Si:.5},aux:{Si:.5}},ennea:{6:1,9:1},instinct:{sp:2},big5:{C:1,N:.5},temp:{Plegmatis:2},ap:{F:2},moral:{order:2}}),
+          O("Bergerak, keluar, melakukan sesuatu yang nyata, atau mengubah suasana fisik.",{fn:{Se:4},pos:{dom:{Se:.5},aux:{Se:.5}},ennea:{7:1,8:.5,3:.5},instinct:{sp:1},big5:{E:1,N:-.5},temp:{Sanguinis:1,Koleris:.5},ap:{F:2},moral:{liberty:1,outcome:1}}),
+          O("Menulis atau merenung sampai emosi batinku jelas.",{fn:{Fi:3,Ni:1},pos:{dom:{Fi:.5},aux:{Fi:.5}},ennea:{4:2,9:.5},instinct:{sx:1},big5:{O:1,N:1},temp:{Melankolis:2},ap:{E:2},moral:{truth:1}}),
+          O("Membuat daftar kecil dan menyelesaikan satu hal agar tidak terasa kacau.",{fn:{Te:4,Si:1},pos:{dom:{Te:.5},aux:{Te:.5}},ennea:{1:1,3:1,6:.5},instinct:{sp:1},big5:{C:2,N:.2},temp:{Koleris:1},ap:{V:1,L:.5},moral:{outcome:2,order:1}})
+        ]
+      },
+      {
+        q:"Kamu paling takut diam-diam menjadi orang yang...",
+        options:[
+          O("Tidak punya makna, tidak unik, atau hidup tanpa kedalaman.",{fn:{Fi:2,Ni:2},pos:{dom:{Fi:.5,Ni:.5}},ennea:{4:3},instinct:{sx:1},big5:{O:2,N:1},temp:{Melankolis:2},ap:{E:2},moral:{truth:2}}),
+          O("Tidak berguna, gagal, atau tidak mencapai apa pun.",{fn:{Te:3,Se:1},pos:{dom:{Te:.5}},ennea:{3:3},instinct:{so:1,sp:.5},big5:{C:2,N:.5},temp:{Koleris:2},ap:{V:2},moral:{outcome:3}}),
+          O("Tidak aman, tidak siap, atau ditinggalkan saat butuh pegangan.",{fn:{Si:3,Fe:1},pos:{dom:{Si:.5}},ennea:{6:3},instinct:{sp:2},big5:{N:2,C:1},temp:{Plegmatis:1,Melankolis:1},ap:{F:2},moral:{loyalty:2,order:1}}),
+          O("Terkurung, kehilangan kebebasan, atau hidup terlalu sempit.",{fn:{Ne:3,Se:1},pos:{dom:{Ne:.5,Se:.5}},ennea:{7:3},instinct:{sx:1},big5:{O:2,E:.5},temp:{Sanguinis:2},ap:{E:1,F:.5},moral:{liberty:3}})
+        ]
+      },
+      {
+        q:"Kamu diam-diam paling ingin...",
+        options:[
+          O("Menjadi baik, benar, dan tidak merusak sesuatu yang penting.",{fn:{Fi:1,Te:1,Si:1},pos:{aux:{Te:.5,Si:.5}},ennea:{1:3},instinct:{sp:.5,so:.5},big5:{C:2,A:.5,N:.5},temp:{Melankolis:1},ap:{V:1,L:1},moral:{justice:2,order:2}}),
+          O("Dicintai, dibutuhkan, dan membuat orang merasa aman.",{fn:{Fe:3,Si:1},pos:{dom:{Fe:.5}},ennea:{2:3},instinct:{so:1,sx:.5},big5:{A:2,E:.5,N:.5},temp:{Plegmatis:1,Sanguinis:.5},ap:{E:2},moral:{care:3,loyalty:1}}),
+          O("Paham, mampu, dan tidak terlihat bodoh atau kosong.",{fn:{Ti:3,Ni:1},pos:{dom:{Ti:.5,Ni:.5}},ennea:{5:3},instinct:{sp:1},big5:{O:2,E:-.5},temp:{Melankolis:2},ap:{L:2},moral:{truth:3}}),
+          O("Damai, tidak dipaksa, dan semua orang bisa berjalan tanpa saling menekan.",{fn:{Fe:2,Si:1,Fi:1},pos:{aux:{Fe:.5,Si:.5}},ennea:{9:3},instinct:{sp:.5,so:.5},big5:{A:2,N:.5,E:-.3},temp:{Plegmatis:2},ap:{E:1,F:1},moral:{care:2,loyalty:1}})
+        ]
+      },
+      {
+        q:"Kalau harus memilih gaya hidup, kamu lebih cocok dengan...",
+        options:[
+          O("Rencana tenang, rutinitas stabil, dan ruang aman untuk menjaga energi.",{fn:{Si:3,Fi:1},pos:{dom:{Si:.5}},ennea:{6:1,9:1},instinct:{sp:3},big5:{C:1,E:-.5,N:.5},temp:{Plegmatis:2},ap:{F:2},moral:{order:2}}),
+          O("Koneksi dalam, intens, dan hubungan yang terasa sangat berarti.",{fn:{Fi:2,Ni:1,Fe:1},pos:{dom:{Fi:.5,Ni:.5}},ennea:{4:1,2:.5},instinct:{sx:3},big5:{O:1,N:.8},temp:{Melankolis:2},ap:{E:2},moral:{care:1,truth:1}}),
+          O("Lingkungan luas, banyak orang, jaringan, dan merasa menjadi bagian dari sesuatu.",{fn:{Fe:3,Ne:1},pos:{dom:{Fe:.5}},ennea:{2:1,3:1,7:.5},instinct:{so:3},big5:{E:2,A:1},temp:{Sanguinis:2},ap:{E:1,V:.5},moral:{loyalty:2,care:1}}),
+          O("Kebebasan bergerak, tantangan nyata, dan hidup yang tidak terlalu dikurung.",{fn:{Se:3,Ne:1},pos:{dom:{Se:.5,Ne:.5}},ennea:{7:1,8:1},instinct:{sx:1,sp:.5},big5:{E:1,O:1,N:-.5},temp:{Sanguinis:1,Koleris:1},ap:{F:1,V:1},moral:{liberty:3}})
+        ]
+      },
+      {
+        q:"Dalam hubungan dekat, konflik paling sering muncul karena...",
+        options:[
+          O("Aku terlalu membaca pola dan jadi sulit percaya pada penjelasan yang terasa dangkal.",{fn:{Ni:3,Fe:1},pos:{dom:{Ni:.5},shadow:{Ne:.5}},ennea:{4:1,5:1,6:.5},instinct:{sx:1},big5:{N:1.5,O:1},temp:{Melankolis:2},ap:{L:1,E:.5},moral:{truth:2}}),
+          O("Aku butuh ruang untuk jadi diri sendiri, tapi orang kadang membaca itu sebagai menjauh.",{fn:{Fi:3,Ne:1},pos:{dom:{Fi:.5}},ennea:{4:1,9:1},instinct:{sx:.5,sp:.5},big5:{N:1,E:-.5,O:1},temp:{Melankolis:1,Plegmatis:.5},ap:{E:2},moral:{liberty:2,care:1}}),
+          O("Aku ingin semuanya jelas, sementara orang lain merasa aku terlalu mengatur.",{fn:{Te:3,Si:1},pos:{dom:{Te:.5}},ennea:{1:1,3:.5,8:.5},instinct:{sp:.5,so:.5},big5:{C:2,A:-.5},temp:{Koleris:2},ap:{V:2},moral:{order:2,outcome:1}}),
+          O("Aku ingin damai, jadi kadang menunda pembicaraan yang seharusnya dibahas.",{fn:{Fe:2,Si:1,Fi:1},pos:{inf:{Te:.5},aux:{Fe:.5}},ennea:{9:2,2:.5,6:.5},instinct:{sp:.5,so:.5},big5:{A:2,N:.8},temp:{Plegmatis:2},ap:{E:1,F:.5},moral:{care:2,loyalty:1}})
+        ]
+      },
+      {
+        q:"Kalau seseorang bertanya, 'Kenapa kamu memilih itu?', jawaban batinmu lebih sering...",
+        options:[
+          O("Karena aku melihat arahnya ke sana, meski belum semua orang melihatnya.",{fn:{Ni:4},pos:{dom:{Ni:1}},ennea:{5:1,4:.5,1:.5},instinct:{sx:.5},big5:{O:2},temp:{Melankolis:1},ap:{L:1,V:.5},moral:{truth:2}}),
+          O("Karena ini membuka lebih banyak kemungkinan daripada pilihan lain.",{fn:{Ne:4},pos:{dom:{Ne:1}},ennea:{7:2},instinct:{sx:.5,so:.5},big5:{O:2},temp:{Sanguinis:1},ap:{E:.5,L:.5},moral:{liberty:3}}),
+          O("Karena ini terasa benar bagiku dan tidak mengkhianati nilai diri.",{fn:{Fi:4},pos:{dom:{Fi:1}},ennea:{4:2,1:.5},instinct:{sx:1},big5:{O:1,N:.5},temp:{Melankolis:2},ap:{E:2},moral:{truth:2,liberty:1}}),
+          O("Karena ini paling masuk akal, efisien, dan bisa dibuktikan lewat hasil.",{fn:{Te:3,Ti:1},pos:{dom:{Te:1}},ennea:{3:1,1:1,8:.5},instinct:{sp:.5,so:.5},big5:{C:2},temp:{Koleris:2},ap:{V:1,L:1},moral:{outcome:2,truth:1}})
+        ]
+      },
+      {
+        q:"Ketika kamu merasa sangat marah, kamu lebih mungkin...",
+        options:[
+          O("Menjadi dingin, melihat pola kesalahan, lalu menjauh agar tidak meledak.",{fn:{Ni:2,Ti:2},pos:{dom:{Ni:.5,Ti:.5},inf:{Se:.5}},ennea:{5:1,1:.5,4:.5},instinct:{sp:.5},big5:{N:1,E:-1,A:-.2},temp:{Melankolis:2},ap:{L:1,V:.5},moral:{truth:1,justice:1}}),
+          O("Menyimpan luka karena rasanya nilai diriku tidak dihargai.",{fn:{Fi:4},pos:{dom:{Fi:.5},inf:{Te:.5}},ennea:{4:2,9:.5},instinct:{sx:1},big5:{N:2,E:-.5},temp:{Melankolis:2},ap:{E:2},moral:{truth:1,liberty:1}}),
+          O("Mencoba bicara agar hubungan tidak rusak, meski nada emosiku bisa terlihat.",{fn:{Fe:3,Se:1},pos:{dom:{Fe:.5}},ennea:{2:1,9:1,1:.5},instinct:{so:1},big5:{A:1,N:1,E:.5},temp:{Plegmatis:1,Sanguinis:.5},ap:{E:2},moral:{care:2,justice:1}}),
+          O("Langsung tegas, mengoreksi, atau mengambil tindakan agar masalah berhenti.",{fn:{Te:3,Se:2},pos:{dom:{Te:.5,Se:.5}},ennea:{8:2,1:.5},instinct:{sp:.5},big5:{E:1,C:1,A:-.7},temp:{Koleris:2},ap:{V:2},moral:{justice:2,outcome:2}})
+        ]
+      },
+      {
+        q:"Saat orang lain sangat berbeda darimu, kamu cenderung...",
+        options:[
+          O("Mencari pola kenapa mereka seperti itu dan apa yang sedang mereka tuju.",{fn:{Ni:3,Fe:1},pos:{dom:{Ni:.5}},ennea:{5:.5,4:.5,9:.5},instinct:{so:.5},big5:{O:2,A:.5},temp:{Melankolis:1},ap:{L:1,E:.5},moral:{truth:1,care:1}}),
+          O("Tertarik karena perbedaan itu membuka sudut pandang baru.",{fn:{Ne:4,Fi:1},pos:{dom:{Ne:.5}},ennea:{7:1,4:.5,9:.5},instinct:{sx:.5,so:.5},big5:{O:2,A:.5},temp:{Sanguinis:1},ap:{E:.5,L:.5},moral:{liberty:2,care:1}}),
+          O("Menghargai selama mereka tetap sopan dan tidak merusak aturan dasar.",{fn:{Si:2,Fe:2},pos:{dom:{Si:.5},aux:{Fe:.5}},ennea:{6:1,1:.5,9:.5},instinct:{so:.5,sp:.5},big5:{A:1,C:1},temp:{Plegmatis:2},ap:{F:1,E:.5},moral:{order:1,loyalty:1,care:1}}),
+          O("Menguji apakah cara mereka benar-benar bekerja atau hanya terdengar bagus.",{fn:{Te:2,Ti:2},pos:{dom:{Te:.5,Ti:.5}},ennea:{3:.5,5:.5,1:.5},instinct:{sp:.5},big5:{C:1,O:.5,A:-.2},temp:{Koleris:1,Melankolis:.5},ap:{L:1,V:1},moral:{truth:2,outcome:1}})
+        ]
+      },
+      {
+        q:"Kalau harus memilih teman satu tim, kamu paling menghargai orang yang...",
+        options:[
+          O("Punya visi, melihat arah, dan tidak hanya sibuk di permukaan.",{fn:{Ni:3,Te:1},pos:{aux:{Ni:1}},ennea:{5:1,1:.5,3:.5},instinct:{so:.5},big5:{O:1,C:1},temp:{Melankolis:1},ap:{L:1,V:.5},moral:{truth:1,order:1}}),
+          O("Kreatif, fleksibel, dan membuat jalan buntu terasa punya pintu lain.",{fn:{Ne:4},pos:{aux:{Ne:1}},ennea:{7:2},instinct:{so:.5},big5:{O:2,E:.5},temp:{Sanguinis:1},ap:{E:.5,L:.5},moral:{liberty:2}}),
+          O("Teliti, konsisten, dan bisa diandalkan dari awal sampai akhir.",{fn:{Si:3,Te:1},pos:{aux:{Si:1}},ennea:{6:1,1:1},instinct:{sp:1},big5:{C:2},temp:{Plegmatis:1,Melankolis:.5},ap:{F:1,L:.5},moral:{order:2,loyalty:1}}),
+          O("Cepat tanggap, berani, dan bisa menghadapi situasi nyata di lapangan.",{fn:{Se:3,Te:1},pos:{aux:{Se:1}},ennea:{8:1,7:.5,3:.5},instinct:{sp:.5},big5:{E:1,N:-.5},temp:{Koleris:1,Sanguinis:.5},ap:{V:1,F:1},moral:{outcome:2}})
+        ]
+      },
+      {
+        q:"Saat kamu harus meminta maaf, kamu paling fokus pada...",
+        options:[
+          O("Apakah orang itu benar-benar merasa dipahami dan tidak sendirian.",{fn:{Fe:4},pos:{dom:{Fe:.5},aux:{Fe:.5}},ennea:{2:2,9:.5},instinct:{so:1},big5:{A:2,N:.5},temp:{Plegmatis:2},ap:{E:2},moral:{care:3}}),
+          O("Apakah permintaan maafku jujur dan tidak hanya formalitas.",{fn:{Fi:4},pos:{dom:{Fi:.5},aux:{Fi:.5}},ennea:{4:1,1:1,9:.5},instinct:{sx:.5},big5:{A:1,O:1,N:.5},temp:{Melankolis:2},ap:{E:2},moral:{truth:2,care:1}}),
+          O("Bagian mana yang salah dan bagaimana memperbaiki agar tidak terjadi lagi.",{fn:{Te:3,Ti:1},pos:{dom:{Te:.5,Ti:.5}},ennea:{1:2,3:.5},instinct:{sp:.5},big5:{C:2},temp:{Koleris:1},ap:{L:1,V:1},moral:{justice:2,outcome:1}}),
+          O("Mengingat pola lama yang mungkin membuat kesalahan itu berulang.",{fn:{Si:3,Ni:1},pos:{dom:{Si:.5,Ni:.5}},ennea:{6:1,1:.5,5:.5},instinct:{sp:1},big5:{C:1,N:.5},temp:{Melankolis:1,Plegmatis:.5},ap:{L:1,F:.5},moral:{order:1,truth:1}})
+        ]
+      },
+      {
+        q:"Kamu melihat seseorang terlihat baik-baik saja, tapi ada yang terasa ganjil. Kamu...",
+        options:[
+          O("Menyimpan catatan batin dan melihat apakah polanya berulang.",{fn:{Ni:4,Fe:1},pos:{dom:{Ni:1}},ennea:{5:1,4:.5,6:.5},instinct:{sx:.5,so:.5},big5:{O:2,N:.5},temp:{Melankolis:2},ap:{L:1,E:.5},moral:{truth:2,care:1}}),
+          O("Membuka obrolan ringan untuk melihat kemungkinan dia mau cerita.",{fn:{Fe:3,Ne:1},pos:{dom:{Fe:.5},aux:{Fe:.5}},ennea:{2:1,7:.5,9:.5},instinct:{so:1},big5:{A:2,E:.5},temp:{Sanguinis:1,Plegmatis:.5},ap:{E:2},moral:{care:3}}),
+          O("Memperhatikan bukti nyata: nada, sikap, tindakan, dan perubahan kecil.",{fn:{Se:3,Si:1,Ti:1},pos:{dom:{Se:.5},aux:{Se:.5}},ennea:{6:.5,5:.5,8:.5},instinct:{sp:.5},big5:{C:.5,E:.5},temp:{Melankolis:.5,Sanguinis:.5},ap:{F:1,L:.5},moral:{truth:2}}),
+          O("Tidak ingin menduga terlalu jauh tanpa data yang cukup.",{fn:{Ti:4},pos:{dom:{Ti:.5},aux:{Ti:.5}},ennea:{5:2,9:.5},instinct:{sp:1},big5:{O:1,E:-.5,A:.2},temp:{Melankolis:1},ap:{L:2},moral:{truth:3}})
+        ]
+      },
+      {
+        q:"Dalam memilih pasangan atau sahabat dekat, yang paling penting bagimu adalah...",
+        options:[
+          O("Kedalaman, kejujuran batin, dan rasa dipahami sampai lapisan yang jarang terlihat.",{fn:{Fi:2,Ni:2},pos:{dom:{Fi:.5,Ni:.5}},ennea:{4:2,5:.5},instinct:{sx:3},big5:{O:2,N:.5},temp:{Melankolis:2},ap:{E:2,L:.5},moral:{truth:2,care:1}}),
+          O("Kehangatan, komunikasi yang baik, dan saling menjaga perasaan.",{fn:{Fe:4},pos:{dom:{Fe:.5},aux:{Fe:.5}},ennea:{2:2,9:.5},instinct:{so:1,sx:1},big5:{A:2,E:.5},temp:{Plegmatis:2},ap:{E:2},moral:{care:3,loyalty:1}}),
+          O("Kesetiaan, kestabilan, dan bukti nyata bahwa dia bisa diandalkan.",{fn:{Si:3,Fe:1},pos:{dom:{Si:.5},aux:{Si:.5}},ennea:{6:2,9:.5},instinct:{sp:2},big5:{C:1,A:1},temp:{Plegmatis:2},ap:{F:2},moral:{loyalty:3,order:1}}),
+          O("Kemandirian, kejelasan, dan kemampuan menghadapi hidup secara dewasa.",{fn:{Te:3,Se:1},pos:{dom:{Te:.5},aux:{Te:.5}},ennea:{8:1,3:1,1:.5},instinct:{sp:1},big5:{C:1,E:.3},temp:{Koleris:1},ap:{V:2},moral:{outcome:2,justice:1}})
+        ]
+      },
+      {
+        q:"Kalau kamu berada di pesta atau acara ramai, kamu paling mungkin...",
+        options:[
+          O("Membaca suasana dan menyesuaikan diri dengan kelompok yang paling nyaman.",{fn:{Fe:3,Se:1},pos:{dom:{Fe:.5},aux:{Fe:.5}},ennea:{2:1,3:.5,9:.5},instinct:{so:2},big5:{E:1,A:2},temp:{Sanguinis:1,Plegmatis:.5},ap:{E:2,F:.5},moral:{care:2}}),
+          O("Mengamati dari pinggir, menangkap pola orang, lalu memilih interaksi yang terasa bermakna.",{fn:{Ni:3,Fe:1},pos:{dom:{Ni:.5},aux:{Ni:.5}},ennea:{4:1,5:1,9:.5},instinct:{sx:1},big5:{E:-1,O:1,N:.5},temp:{Melankolis:2},ap:{L:1,E:.5},moral:{truth:1,care:1}}),
+          O("Mencari hal seru yang bisa dilakukan sekarang agar acara terasa hidup.",{fn:{Se:4,Fe:1},pos:{dom:{Se:.5},aux:{Se:.5}},ennea:{7:2,8:.5},instinct:{so:1,sx:.5},big5:{E:2,O:.5,N:-.5},temp:{Sanguinis:2},ap:{F:1,E:.5},moral:{liberty:2,care:1}}),
+          O("Bertemu beberapa orang, membuka topik baru, dan mengikuti alur ide yang muncul.",{fn:{Ne:4,Fe:1},pos:{dom:{Ne:.5},aux:{Ne:.5}},ennea:{7:2,3:.5},instinct:{so:2},big5:{E:2,O:2},temp:{Sanguinis:2},ap:{E:1,L:.5},moral:{liberty:2}})
+        ]
+      },
+      {
+        q:"Saat kamu harus menyelesaikan tugas besar, kamu mulai dari...",
+        options:[
+          O("Membayangkan bentuk akhir dan arah besar sebelum menyentuh detail.",{fn:{Ni:3,Te:1},pos:{dom:{Ni:.5},aux:{Ni:.5}},ennea:{5:1,1:.5,3:.5},instinct:{sp:.5},big5:{O:1,C:1},temp:{Melankolis:1},ap:{L:1,V:.5},moral:{truth:1,outcome:1}}),
+          O("Membuat struktur, tenggat, daftar bagian, dan ukuran selesai.",{fn:{Te:4,Si:1},pos:{dom:{Te:.5},aux:{Te:.5}},ennea:{3:1,1:1,6:.5},instinct:{sp:1},big5:{C:2},temp:{Koleris:2},ap:{V:2,L:1},moral:{outcome:3,order:1}}),
+          O("Mengumpulkan contoh lama, format, dan cara yang sudah terbukti.",{fn:{Si:4,Te:1},pos:{dom:{Si:.5},aux:{Si:.5}},ennea:{6:1,1:1},instinct:{sp:2},big5:{C:2,O:-.3},temp:{Plegmatis:1,Melankolis:.5},ap:{F:1,L:.5},moral:{order:2}}),
+          O("Mencoba beberapa ide pembuka sampai menemukan energi yang pas.",{fn:{Ne:3,Fi:1},pos:{dom:{Ne:.5}},ennea:{7:1,4:1},instinct:{sx:.5},big5:{O:2,C:-.5},temp:{Sanguinis:1},ap:{E:.5,L:.5},moral:{liberty:2}})
+        ]
+      },
+      {
+        q:"Kalau ada rahasia yang harus kamu simpan, kamu...",
+        options:[
+          O("Menjaganya karena kepercayaan dan loyalitas itu penting.",{fn:{Si:2,Fe:2},pos:{dom:{Si:.5},aux:{Fe:.5}},ennea:{6:2,2:.5,9:.5},instinct:{so:1,sp:.5},big5:{A:2,C:1},temp:{Plegmatis:2},ap:{F:1,E:1},moral:{loyalty:3,care:1}}),
+          O("Menimbang apakah menyimpan rahasia itu masih benar secara nilai.",{fn:{Fi:3,Ti:1},pos:{dom:{Fi:.5}},ennea:{4:1,1:1,9:.5},instinct:{sx:.5},big5:{O:1,N:.5},temp:{Melankolis:2},ap:{E:1,L:.5},moral:{truth:2,justice:1}}),
+          O("Melihat dampak nyata jika rahasia itu dibuka atau ditutup.",{fn:{Te:3,Ni:1},pos:{dom:{Te:.5}},ennea:{3:.5,8:.5,1:.5},instinct:{sp:.5,so:.5},big5:{C:1},temp:{Koleris:1},ap:{V:1,L:.5},moral:{outcome:2,justice:1}}),
+          O("Mencari cara agar tidak berbohong, tapi juga tidak membocorkan yang bukan hakku.",{fn:{Ti:2,Fe:2},pos:{dom:{Ti:.5},aux:{Fe:.5}},ennea:{5:1,9:.5,1:.5},instinct:{so:.5},big5:{A:1,O:1},temp:{Melankolis:1,Plegmatis:.5},ap:{L:2,E:.5},moral:{truth:2,care:1}})
+        ]
+      },
+      {
+        q:"Saat kamu merasa tertinggal dari orang lain, pikiranmu sering menuju...",
+        options:[
+          O("Apa arah hidupku sebenarnya, dan kenapa aku seperti keluar jalur?",{fn:{Ni:3,Fi:1},pos:{dom:{Ni:.5}},ennea:{4:2,5:.5},instinct:{sx:.5},big5:{N:2,O:1},temp:{Melankolis:2},ap:{E:1,L:1},moral:{truth:2}}),
+          O("Aku harus mengejar hasil yang terlihat agar tidak makin jauh.",{fn:{Te:4},pos:{dom:{Te:.5},inf:{Fi:.5}},ennea:{3:2,1:.5},instinct:{so:1,sp:.5},big5:{C:2,N:1},temp:{Koleris:2},ap:{V:2},moral:{outcome:3}}),
+          O("Mungkin ada jalan lain yang belum kupikirkan; aku tidak harus mengikuti satu standar.",{fn:{Ne:3,Fi:1},pos:{dom:{Ne:.5}},ennea:{7:1,4:1,9:.5},instinct:{sx:.5},big5:{O:2,N:.5},temp:{Sanguinis:1},ap:{E:.5,L:.5},moral:{liberty:2}}),
+          O("Aku perlu kembali ke langkah aman dan membangun pelan-pelan dari dasar.",{fn:{Si:3,Te:1},pos:{dom:{Si:.5}},ennea:{6:2,1:.5},instinct:{sp:2},big5:{C:2,N:.8},temp:{Plegmatis:1,Melankolis:.5},ap:{F:1,L:.5},moral:{order:2,outcome:1}})
+        ]
+      },
+      {
+        q:"Dalam diri orang lain, kamu paling cepat memperhatikan...",
+        options:[
+          O("Perubahan suasana hati dan kebutuhan emosional yang tidak mereka katakan.",{fn:{Fe:4,Ni:1},pos:{dom:{Fe:.5},aux:{Fe:.5}},ennea:{2:2,9:.5},instinct:{so:1,sx:.5},big5:{A:2,N:.5},temp:{Plegmatis:2},ap:{E:2},moral:{care:3}}),
+          O("Ketidakkonsistenan antara ucapan, logika, dan tindakan.",{fn:{Ti:3,Se:1},pos:{dom:{Ti:.5}},ennea:{5:1,1:1},instinct:{sp:.5},big5:{O:1,C:.5,A:-.2},temp:{Melankolis:1},ap:{L:2},moral:{truth:3,justice:1}}),
+          O("Perubahan kecil dari kebiasaan mereka yang biasanya stabil.",{fn:{Si:4,Fe:1},pos:{dom:{Si:.5}},ennea:{6:1,2:.5,9:.5},instinct:{sp:.5,so:.5},big5:{C:1,A:1},temp:{Plegmatis:1},ap:{F:1,E:.5},moral:{loyalty:1,care:1}}),
+          O("Energi nyata mereka: gerak, ekspresi, keberanian, atau ketegangan tubuh.",{fn:{Se:4,Fe:1},pos:{dom:{Se:.5}},ennea:{8:.5,7:.5,3:.5},instinct:{sx:.5,so:.5},big5:{E:1,N:-.2},temp:{Sanguinis:1},ap:{F:1,E:.5},moral:{truth:1,care:1}})
+        ]
+      },
+      {
+        q:"Kalau kamu harus hidup tanpa arahan dari siapa pun, kamu paling mungkin...",
+        options:[
+          O("Membuat visi pribadi dan berjalan diam-diam ke arah itu.",{fn:{Ni:3,Fi:1,Te:1},pos:{dom:{Ni:.5},aux:{Ni:.5}},ennea:{5:1,4:.5,1:.5},instinct:{sp:.5,sx:.5},big5:{O:2,C:1,E:-.5},temp:{Melankolis:2},ap:{V:1,L:1},moral:{truth:2,liberty:1}}),
+          O("Bereksperimen dengan banyak pilihan sampai menemukan hidup yang terasa cocok.",{fn:{Ne:4,Fi:1},pos:{dom:{Ne:.5}},ennea:{7:2,4:.5},instinct:{sx:.5},big5:{O:2,E:.5,C:-.5},temp:{Sanguinis:1},ap:{E:1,L:.5},moral:{liberty:3}}),
+          O("Membuat rutinitas aman sendiri agar tidak jatuh ke kekacauan.",{fn:{Si:3,Te:1},pos:{dom:{Si:.5}},ennea:{6:2,1:.5},instinct:{sp:2},big5:{C:2,N:.5},temp:{Plegmatis:1,Melankolis:.5},ap:{F:2},moral:{order:2}}),
+          O("Langsung mencari peluang nyata dan bergerak cepat dari satu kesempatan ke kesempatan lain.",{fn:{Se:3,Te:1},pos:{dom:{Se:.5}},ennea:{7:1,8:1,3:.5},instinct:{sp:.5,sx:.5},big5:{E:1,O:.5,N:-.5},temp:{Sanguinis:1,Koleris:1},ap:{V:1,F:1},moral:{outcome:2,liberty:1}})
+        ]
+      },
+      {
+        q:"Di bawah tekanan sosial, kamu lebih sering...",
+        options:[
+          O("Menyesuaikan ekspresi agar suasana tidak pecah, meski batinku belum tentu tenang.",{fn:{Fe:4,Si:1},pos:{dom:{Fe:.5},inf:{Ti:.5}},ennea:{2:1,9:1,6:.5},instinct:{so:2},big5:{A:2,N:1},temp:{Plegmatis:2},ap:{E:2},moral:{care:2,loyalty:1}}),
+          O("Menarik diri karena aku tidak mau kehilangan suara batinku.",{fn:{Fi:4,Ni:1},pos:{dom:{Fi:.5},inf:{Te:.5}},ennea:{4:2,9:.5},instinct:{sx:.5,sp:.5},big5:{N:1.5,E:-1},temp:{Melankolis:2},ap:{E:2},moral:{liberty:2,truth:1}}),
+          O("Mengamati aturan main sosialnya, lalu memilih langkah yang paling aman.",{fn:{Si:2,Fe:1,Ti:1},pos:{dom:{Si:.5}},ennea:{6:2,9:.5},instinct:{sp:.5,so:1},big5:{C:1,A:1,N:1},temp:{Plegmatis:2},ap:{F:1,L:.5},moral:{order:1,loyalty:1}}),
+          O("Berusaha tetap tegas dan tidak membiarkan tekanan mengatur keputusan.",{fn:{Te:2,Se:1,Fi:1},pos:{dom:{Te:.5,Se:.5}},ennea:{8:2,3:.5},instinct:{sp:.5},big5:{E:.5,C:1,A:-.5},temp:{Koleris:2},ap:{V:2},moral:{justice:1,outcome:2}})
+        ]
+      },
+      {
+        q:"Kalau kamu harus menjelaskan dirimu pada orang baru, kamu ingin mereka tahu bahwa...",
+        options:[
+          O("Aku mungkin tenang, tapi kepalaku banyak membaca pola dan makna.",{fn:{Ni:3,Ti:1},pos:{dom:{Ni:.5}},ennea:{5:1,4:1},instinct:{sx:.5},big5:{O:2,E:-.5},temp:{Melankolis:2},ap:{L:1,E:.5},moral:{truth:2}}),
+          O("Aku mungkin berubah-ubah ide, tapi itu karena aku melihat banyak jalan.",{fn:{Ne:4},pos:{dom:{Ne:.5}},ennea:{7:2},instinct:{sx:.5},big5:{O:2,E:.5,C:-.5},temp:{Sanguinis:1},ap:{E:.5,L:.5},moral:{liberty:2}}),
+          O("Aku mungkin sensitif, tapi aku serius menjaga hal yang terasa benar.",{fn:{Fi:4},pos:{dom:{Fi:.5}},ennea:{4:2,1:.5},instinct:{sx:.5},big5:{O:1,N:1,A:.5},temp:{Melankolis:2},ap:{E:2},moral:{truth:2,liberty:1}}),
+          O("Aku mungkin terlihat tegas, tapi aku hanya ingin semuanya jelas dan berjalan.",{fn:{Te:4},pos:{dom:{Te:.5}},ennea:{3:1,8:1,1:.5},instinct:{sp:.5,so:.5},big5:{C:2,E:.5},temp:{Koleris:2},ap:{V:2},moral:{outcome:2,order:1}})
+        ]
+      },
+      {
+        q:"Saat kamu membuat rencana masa depan, kamu lebih suka rencana yang...",
+        options:[
+          O("Punya arah besar yang kuat, meski detailnya bisa berubah nanti.",{fn:{Ni:4,Te:1},pos:{dom:{Ni:.5},aux:{Ni:.5}},ennea:{5:.5,3:.5,1:.5},instinct:{sp:.5},big5:{O:2,C:1},temp:{Melankolis:1},ap:{V:1,L:1},moral:{truth:1,outcome:1}}),
+          O("Fleksibel, banyak cabang, dan tidak membuatku merasa dikurung.",{fn:{Ne:4,Fi:1},pos:{dom:{Ne:.5}},ennea:{7:2,4:.5},instinct:{sx:.5},big5:{O:2,C:-.5},temp:{Sanguinis:1},ap:{E:1,L:.5},moral:{liberty:3}}),
+          O("Rinci, realistis, dan punya langkah yang aman.",{fn:{Si:3,Te:2},pos:{dom:{Si:.5},aux:{Te:.5}},ennea:{6:2,1:.5},instinct:{sp:2},big5:{C:2,N:.5},temp:{Plegmatis:1,Melankolis:.5},ap:{F:1,V:.5},moral:{order:2,outcome:1}}),
+          O("Berbasis target hasil dan bisa dievaluasi dengan jelas.",{fn:{Te:4,Ni:1},pos:{dom:{Te:.5},aux:{Te:.5}},ennea:{3:2,1:.5},instinct:{sp:1,so:.5},big5:{C:2},temp:{Koleris:2},ap:{V:2,L:.5},moral:{outcome:3}})
+        ]
+      },
+      {
+        q:"Ketika kamu punya firasat tentang sesuatu, kamu...",
+        options:[
+          O("Menganggapnya serius, lalu mencari tanda pendukung sebelum bertindak.",{fn:{Ni:4,Ti:1},pos:{dom:{Ni:1}},ennea:{5:1,6:.5,4:.5},instinct:{sp:.5,sx:.5},big5:{O:2,N:.5},temp:{Melankolis:2},ap:{L:1},moral:{truth:2}}),
+          O("Mengubahnya menjadi beberapa kemungkinan, bukan satu kesimpulan final.",{fn:{Ne:4,Ti:1},pos:{dom:{Ne:.5}},ennea:{7:1,5:.5,6:.5},instinct:{sx:.5},big5:{O:2},temp:{Sanguinis:1},ap:{L:1},moral:{liberty:1,truth:1}}),
+          O("Menguji dengan pengalaman lama: pernahkah pola ini terjadi sebelumnya?",{fn:{Si:4,Ni:1},pos:{dom:{Si:.5}},ennea:{6:2},instinct:{sp:1},big5:{C:1,N:.5},temp:{Melankolis:1,Plegmatis:.5},ap:{F:1,L:.5},moral:{truth:1,order:1}}),
+          O("Tidak mau terlalu lama di firasat; aku lihat bukti nyata di lapangan.",{fn:{Se:3,Te:1},pos:{dom:{Se:.5}},ennea:{8:.5,7:.5,3:.5},instinct:{sp:.5},big5:{E:.5,N:-.3},temp:{Koleris:1},ap:{F:1,V:.5},moral:{truth:1,outcome:1}})
+        ]
+      },
+      {
+        q:"Saat seseorang terlalu bergantung padamu, kamu...",
+        options:[
+          O("Ingin membantu, tapi takut mereka tidak tumbuh kalau selalu kuselamatkan.",{fn:{Fe:3,Ni:1,Ti:1},pos:{aux:{Fe:.5,Ni:.5}},ennea:{2:1,9:.5,1:.5},instinct:{so:1},big5:{A:2,C:.5,N:.5},temp:{Plegmatis:1},ap:{E:2,L:.5},moral:{care:2,justice:1}}),
+          O("Merasa berat karena batas pribadiku mulai terkikis.",{fn:{Fi:3,Te:1},pos:{dom:{Fi:.5},inf:{Te:.5}},ennea:{4:1,9:1},instinct:{sp:.5,sx:.5},big5:{N:1,A:.5,E:-.5},temp:{Melankolis:1},ap:{E:2,V:.5},moral:{liberty:2,care:1}}),
+          O("Membuat batas dan aturan bantuan yang jelas.",{fn:{Te:4,Fi:1},pos:{dom:{Te:.5}},ennea:{8:1,1:1},instinct:{sp:1},big5:{C:2,A:-.2},temp:{Koleris:2},ap:{V:2},moral:{justice:2,outcome:1}}),
+          O("Mencari penyebab logis kenapa pola ketergantungan itu muncul.",{fn:{Ti:3,Si:1,Ni:1},pos:{dom:{Ti:.5}},ennea:{5:2,6:.5},instinct:{sp:1},big5:{O:1,E:-.5},temp:{Melankolis:1},ap:{L:2},moral:{truth:2}})
+        ]
+      },
+      {
+        q:"Kalau kamu berada di bawah aturan yang terlalu ketat, kamu...",
+        options:[
+          O("Mencari celah kemungkinan baru agar tidak terasa mati.",{fn:{Ne:4,Fi:1},pos:{dom:{Ne:.5}},ennea:{7:2,4:.5},instinct:{sx:.5},big5:{O:2,E:.5,C:-.3},temp:{Sanguinis:1},ap:{E:1,L:.5},moral:{liberty:3}}),
+          O("Mengikuti dulu kalau aturannya masuk akal dan menjaga kestabilan.",{fn:{Si:3,Ti:1},pos:{dom:{Si:.5}},ennea:{6:2,1:.5},instinct:{sp:1},big5:{C:2},temp:{Plegmatis:1},ap:{F:1,L:1},moral:{order:2}}),
+          O("Mempertanyakan logika aturan itu dan mencari bagian yang tidak konsisten.",{fn:{Ti:4,Ne:1},pos:{dom:{Ti:.5}},ennea:{5:1,1:1},instinct:{sp:.5},big5:{O:1,A:-.2},temp:{Melankolis:1},ap:{L:2},moral:{truth:2,justice:1}}),
+          O("Menilai apakah aturan itu membantu hasil atau hanya menghambat kerja.",{fn:{Te:4,Se:1},pos:{dom:{Te:.5}},ennea:{8:1,3:1,1:.5},instinct:{sp:.5,so:.5},big5:{C:1,E:.5},temp:{Koleris:2},ap:{V:2,L:.5},moral:{outcome:2,justice:1}})
+        ]
+      },
+      {
+        q:"Saat memilih antara banyak orang dan satu orang yang sangat penting, kamu...",
+        options:[
+          O("Memikirkan dampak pada kelompok lebih luas dan cara menjaga harmoni.",{fn:{Fe:4,Ni:1},pos:{dom:{Fe:.5}},ennea:{2:1,1:.5,9:.5},instinct:{so:2},big5:{A:2},temp:{Plegmatis:1},ap:{E:2},moral:{care:2,loyalty:1,justice:1}}),
+          O("Memikirkan ikatan pribadi yang dalam dan siapa yang benar-benar kupilih dengan hati.",{fn:{Fi:4,Ni:1},pos:{dom:{Fi:.5}},ennea:{4:1,2:.5,9:.5},instinct:{sx:2},big5:{O:1,N:.5},temp:{Melankolis:2},ap:{E:2},moral:{loyalty:1,truth:1,care:1}}),
+          O("Menimbang prinsip adilnya: siapa yang paling berhak dibantu lebih dulu.",{fn:{Ti:2,Te:1,Fi:1},pos:{dom:{Ti:.5},aux:{Te:.5}},ennea:{1:2,5:.5},instinct:{sp:.5,so:.5},big5:{C:1,A:.5},temp:{Melankolis:1},ap:{L:2},moral:{justice:3,truth:1}}),
+          O("Melihat akibat nyata dari masing-masing pilihan dan memilih yang paling sedikit merusak.",{fn:{Te:3,Se:1,Ni:1},pos:{dom:{Te:.5}},ennea:{3:.5,8:.5,1:.5},instinct:{sp:.5},big5:{C:1},temp:{Koleris:1},ap:{V:2,L:.5},moral:{outcome:3,justice:1}})
+        ]
+      },
+      {
+        q:"Kalau orang bilang kamu terlalu serius, kemungkinan alasannya...",
+        options:[
+          O("Aku sering melihat makna dan arah yang tidak langsung terlihat.",{fn:{Ni:4},pos:{dom:{Ni:.5}},ennea:{4:1,5:1},instinct:{sx:.5},big5:{O:2,E:-.5},temp:{Melankolis:2},ap:{L:1,E:.5},moral:{truth:2}}),
+          O("Aku ingin semuanya benar, rapi, dan tidak asal.",{fn:{Si:1,Te:2,Ti:1},pos:{dom:{Te:.5,Si:.5}},ennea:{1:2,6:.5},instinct:{sp:1},big5:{C:2},temp:{Melankolis:1,Koleris:.5},ap:{L:1,V:1},moral:{order:2,justice:1}}),
+          O("Aku menjaga perasaan orang, jadi banyak hal kupikirkan sebelum bicara.",{fn:{Fe:4,Ni:1},pos:{dom:{Fe:.5}},ennea:{2:1,9:1,6:.5},instinct:{so:1},big5:{A:2,N:.5},temp:{Plegmatis:1},ap:{E:2},moral:{care:3}}),
+          O("Aku sulit pura-pura setuju kalau sesuatu tidak terasa benar bagiku.",{fn:{Fi:4,Te:1},pos:{dom:{Fi:.5}},ennea:{4:1,1:1},instinct:{sx:.5},big5:{O:1,A:.2},temp:{Melankolis:1},ap:{E:2},moral:{truth:2,liberty:1}})
+        ]
+      },
+      {
+        q:"Kalau orang bilang kamu terlalu santai, kemungkinan alasannya...",
+        options:[
+          O("Aku menunggu semuanya terasa jelas dulu sebelum bergerak.",{fn:{Ni:2,Ti:1},pos:{inf:{Se:1},dom:{Ni:.5}},ennea:{5:1,9:1},instinct:{sp:.5},big5:{E:-.5,N:.5,C:-.3},temp:{Plegmatis:1,Melankolis:.5},ap:{L:1},moral:{truth:1}}),
+          O("Aku tidak mau hidup terlalu dikurung oleh satu rencana.",{fn:{Ne:3,Fi:1},pos:{dom:{Ne:.5}},ennea:{7:2,9:.5},instinct:{sx:.5},big5:{O:2,C:-.8},temp:{Sanguinis:1},ap:{E:.5},moral:{liberty:3}}),
+          O("Aku menjaga damai dan tidak ingin semua hal jadi konflik.",{fn:{Fe:2,Si:1,Fi:1},pos:{dom:{Fe:.5},inf:{Te:.5}},ennea:{9:2,2:.5},instinct:{sp:.5,so:.5},big5:{A:2,C:-.2},temp:{Plegmatis:2},ap:{E:1,F:1},moral:{care:2,loyalty:1}}),
+          O("Aku lebih percaya respons cepat di lapangan daripada rencana panjang.",{fn:{Se:4,Ti:1},pos:{dom:{Se:.5}},ennea:{7:1,8:1},instinct:{sp:.5,sx:.5},big5:{E:1,C:-.2,N:-.5},temp:{Sanguinis:1,Koleris:.5},ap:{F:1,V:1},moral:{liberty:1,outcome:1}})
+        ]
+      },
+      {
+        q:"Kamu paling ingin orang menghargai...",
+        options:[
+          O("Kedalaman pikiranku dan caraku melihat pola yang tidak mudah dijelaskan.",{fn:{Ni:3,Ti:1},pos:{dom:{Ni:.5,Ti:.5}},ennea:{5:1,4:1},instinct:{sx:.5},big5:{O:2},temp:{Melankolis:2},ap:{L:2},moral:{truth:2}}),
+          O("Keaslian diriku, bukan hanya peran yang mereka lihat di luar.",{fn:{Fi:4},pos:{dom:{Fi:.5}},ennea:{4:2},instinct:{sx:1},big5:{O:1,N:.5},temp:{Melankolis:2},ap:{E:2},moral:{truth:2,liberty:1}}),
+          O("Usaha dan hasil nyata yang kubangun dengan susah payah.",{fn:{Te:4},pos:{dom:{Te:.5}},ennea:{3:2,1:.5},instinct:{so:1,sp:.5},big5:{C:2},temp:{Koleris:2},ap:{V:2},moral:{outcome:3}}),
+          O("Kesetiaan, perhatian, dan caraku menjaga orang yang penting bagiku.",{fn:{Fe:2,Si:2},pos:{dom:{Fe:.5,Si:.5}},ennea:{2:1,6:1,9:.5},instinct:{so:1,sp:.5},big5:{A:2,C:1},temp:{Plegmatis:2},ap:{E:1,F:1},moral:{care:2,loyalty:2}})
+        ]
+      },
+      {
+        q:"Ketika harus bertindak cepat tanpa informasi lengkap, kamu...",
+        options:[
+          O("Bertindak berdasarkan kondisi nyata yang terlihat sekarang.",{fn:{Se:4,Ti:1},pos:{dom:{Se:1}},ennea:{8:1,7:1},instinct:{sp:.5},big5:{E:1,N:-.5},temp:{Koleris:1,Sanguinis:1},ap:{V:1,F:1},moral:{outcome:2}}),
+          O("Memilih langkah paling efisien dengan informasi yang ada.",{fn:{Te:4,Ni:1},pos:{dom:{Te:.5}},ennea:{3:1,8:1,1:.5},instinct:{sp:1},big5:{C:1,E:.5},temp:{Koleris:2},ap:{V:2},moral:{outcome:3}}),
+          O("Merasa kurang nyaman, tapi mencari pola cepat sebelum memutuskan.",{fn:{Ni:3,Ti:1},pos:{dom:{Ni:.5},inf:{Se:.5}},ennea:{5:1,6:.5},instinct:{sp:1},big5:{N:1,O:1},temp:{Melankolis:1},ap:{L:1},moral:{truth:1}}),
+          O("Mencari opsi cadangan karena satu langkah saja terasa terlalu sempit.",{fn:{Ne:3,Si:1},pos:{dom:{Ne:.5},inf:{Si:.5}},ennea:{7:1,6:1},instinct:{sp:.5},big5:{O:1,N:.5},temp:{Sanguinis:1},ap:{L:.5,E:.5},moral:{liberty:1,order:1}})
+        ]
+      },
+      {
+        q:"Saat kamu sendirian terlalu lama, kamu biasanya...",
+        options:[
+          O("Masuk makin dalam ke pikiran dan makna, kadang sampai terlalu jauh.",{fn:{Ni:3,Ti:1,Fi:1},pos:{dom:{Ni:.5}},ennea:{5:1,4:1},instinct:{sx:.5,sp:.5},big5:{O:2,N:1,E:-1},temp:{Melankolis:2},ap:{L:1,E:1},moral:{truth:2}}),
+          O("Mulai butuh ide, obrolan, atau rangsangan baru agar tidak terasa buntu.",{fn:{Ne:3,Fe:1},pos:{dom:{Ne:.5}},ennea:{7:2,2:.5},instinct:{so:.5,sx:.5},big5:{O:2,E:.5},temp:{Sanguinis:1},ap:{E:.5,L:.5},moral:{liberty:2,care:1}}),
+          O("Menikmati tenang, asal rutinitas dan kebutuhan dasar aman.",{fn:{Si:3,Fi:1},pos:{dom:{Si:.5}},ennea:{9:1,6:1},instinct:{sp:2},big5:{E:-1,C:1,N:-.2},temp:{Plegmatis:2},ap:{F:2},moral:{order:1,loyalty:1}}),
+          O("Ingin melakukan sesuatu yang nyata agar energi tidak tertahan.",{fn:{Se:3,Te:1},pos:{dom:{Se:.5}},ennea:{7:1,8:.5,3:.5},instinct:{sp:.5},big5:{E:1,N:-.3},temp:{Sanguinis:1,Koleris:.5},ap:{F:1,V:.5},moral:{outcome:1,liberty:1}})
+        ]
+      },
+      {
+        q:"Kalau kamu diberi kuasa, kamu paling takut...",
+        options:[
+          O("Menyalahgunakan kuasa dan tidak adil.",{fn:{Fi:1,Te:1,Si:1},pos:{aux:{Fi:.5,Te:.5}},ennea:{1:2,6:.5},instinct:{so:.5,sp:.5},big5:{C:2,A:.5,N:.5},temp:{Melankolis:1},ap:{V:1,L:1},moral:{justice:3,order:1}}),
+          O("Tidak peka pada orang yang terdampak keputusanmu.",{fn:{Fe:3,Ni:1},pos:{aux:{Fe:.5}},ennea:{2:2,9:.5},instinct:{so:1},big5:{A:2,N:.5},temp:{Plegmatis:1},ap:{E:2},moral:{care:3,justice:1}}),
+          O("Tidak efektif dan hanya punya niat baik tanpa hasil.",{fn:{Te:4},pos:{dom:{Te:.5}},ennea:{3:2,8:.5},instinct:{sp:.5,so:.5},big5:{C:2,N:.5},temp:{Koleris:2},ap:{V:2},moral:{outcome:3}}),
+          O("Terkurung dalam satu cara memimpin dan tidak bisa beradaptasi.",{fn:{Ne:2,Se:1,Te:1},pos:{dom:{Ne:.5,Se:.5}},ennea:{7:2,8:.5},instinct:{sx:.5},big5:{O:2,E:.5},temp:{Sanguinis:1},ap:{E:.5,V:.5},moral:{liberty:2,outcome:1}})
+        ]
+      }
+    ];
+
+    let currentIndex = 0;
+    let answers = Array(questions.length).fill(null);
+    let latestResultText = "";
+
+    const startScreen = document.getElementById("startScreen");
+    const testScreen = document.getElementById("testScreen");
+    const resultScreen = document.getElementById("resultScreen");
+    const questionText = document.getElementById("questionText");
+    const optionsBox = document.getElementById("optionsBox");
+    const counterText = document.getElementById("counterText");
+    const progressFill = document.getElementById("progressFill");
+    const resultsBox = document.getElementById("resultsBox");
+    const mainTypePill = document.getElementById("mainTypePill");
+    const confidenceBadge = document.getElementById("confidenceBadge");
+    const mainSummary = document.getElementById("mainSummary");
+
+    document.getElementById("startBtn").addEventListener("click", () => {
+      showScreen("test");
+      currentIndex = 0;
+      renderQuestion();
+    });
+
+    document.getElementById("aboutBtn").addEventListener("click", () => {
+      const box = document.getElementById("aboutBox");
+      box.style.display = box.style.display === "none" ? "block" : "none";
+    });
+
+    document.getElementById("backBtn").addEventListener("click", () => {
+      if(currentIndex > 0){
+        currentIndex--;
+        renderQuestion();
+      } else {
+        showScreen("start");
+      }
+    });
+
+    document.getElementById("skipBtn").addEventListener("click", () => {
+      answers[currentIndex] = null;
+      goNext();
+    });
+
+    document.getElementById("restartBtn").addEventListener("click", () => {
+      answers = Array(questions.length).fill(null);
+      currentIndex = 0;
+      resultsBox.innerHTML = "";
+      showScreen("start");
+      window.scrollTo({top:0, behavior:"smooth"});
+    });
+
+    document.getElementById("copyBtn").addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(latestResultText);
+        document.getElementById("copyBtn").textContent = "Hasil Tersalin";
+        setTimeout(() => document.getElementById("copyBtn").textContent = "Salin Hasil", 1600);
+      } catch(e){
+        const area = document.createElement("textarea");
+        area.value = latestResultText;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand("copy");
+        area.remove();
+      }
+    });
+
+    function showScreen(name){
+      startScreen.classList.toggle("active", name === "start");
+      testScreen.classList.toggle("active", name === "test");
+      resultScreen.classList.toggle("active", name === "result");
+    }
+
+    function renderQuestion(){
+      const q = questions[currentIndex];
+      questionText.textContent = q.q;
+      counterText.textContent = `Pertanyaan ${currentIndex + 1}/${questions.length}`;
+      progressFill.style.width = `${(currentIndex / questions.length) * 100}%`;
+      optionsBox.innerHTML = "";
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "option" + (answers[currentIndex] === idx ? " selected" : "");
+        btn.textContent = opt.text;
+        btn.addEventListener("click", () => {
+          answers[currentIndex] = idx;
+          goNext();
+        });
+        optionsBox.appendChild(btn);
+      });
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    function goNext(){
+      if(currentIndex < questions.length - 1){
+        currentIndex++;
+        renderQuestion();
+      } else {
+        progressFill.style.width = "100%";
+        renderResults();
+      }
+    }
+
+    function calculateScores(){
+      const total = {
+        fn: zero(FUNCTIONS),
+        pos:{dom:zero(FUNCTIONS),aux:zero(FUNCTIONS),tert:zero(FUNCTIONS),inf:zero(FUNCTIONS),shadow:zero(FUNCTIONS)},
+        ennea: zero(ENNEA),
+        instinct: zero(INSTINCTS),
+        big5: zero(BIG5),
+        temp: zero(TEMPS),
+        ap: zero(AP),
+        moral: zero(MORAL),
+        evidence: []
+      };
+
+      answers.forEach((ans, qi) => {
+        if(ans === null) return;
+        const item = questions[qi].options[ans];
+        const s = item.score;
+        mergeScore(total.fn, s.fn);
+        ["dom","aux","tert","inf","shadow"].forEach(p => mergeScore(total.pos[p], s.pos[p]));
+        mergeScore(total.ennea, s.ennea);
+        mergeScore(total.instinct, s.instinct);
+        mergeScore(total.big5, s.big5);
+        mergeScore(total.temp, s.temp);
+        mergeScore(total.ap, s.ap);
+        mergeScore(total.moral, s.moral);
+        total.evidence.push({q:questions[qi].q, a:item.text, fn:s.fn});
+      });
+
+      return total;
+    }
+
+    function sortedEntries(obj){
+      return Object.entries(obj).sort((a,b) => b[1] - a[1]);
+    }
+
+    function percentFromScore(value, min, max){
+      if(max === min) return 50;
+      return Math.round(((value - min) / (max - min)) * 100);
+    }
+
+    function levelFromPercent(p){
+      if(p >= 67) return "tinggi";
+      if(p >= 40) return "sedang";
+      return "rendah";
+    }
+
+    function calculateMbti(scores){
+      const typeScores = {};
+      Object.entries(STACKS).forEach(([type, stack]) => {
+        const [dom, aux, tert, inf] = stack;
+        const nonStack = FUNCTIONS.filter(f => !stack.includes(f));
+        let score =
+          scores.fn[dom] * 1.22 +
+          scores.fn[aux] * 1.05 +
+          scores.fn[tert] * .62 +
+          scores.fn[inf] * .30 +
+          scores.pos.dom[dom] * 1.35 +
+          scores.pos.aux[aux] * 1.00 +
+          scores.pos.tert[tert] * .45 +
+          scores.pos.inf[inf] * .70;
+
+        score += Math.min(scores.fn[dom], scores.fn[aux]) * .25;
+        score += axisBonus(stack, scores.fn);
+
+        nonStack.forEach(f => {
+          if(scores.fn[f] > scores.fn[dom] * .85) score -= .5;
+        });
+
+        typeScores[type] = score;
+      });
+
+      const ranked = sortedEntries(typeScores);
+      const top = ranked[0];
+      const second = ranked[1];
+      const gap = Math.max(0, top[1] - second[1]);
+      const confidence = Math.max(34, Math.min(94, Math.round(45 + gap * 2.7)));
+      return {typeScores, ranked, main:top[0], confidence};
+    }
+
+    function axisBonus(stack, fn){
+      let bonus = 0;
+      const [dom, aux] = stack;
+      if((dom === "Ni" && aux === "Fe") || (dom === "Fe" && aux === "Ni")) bonus += Math.min(fn.Ni, fn.Fe) * .18;
+      if((dom === "Ni" && aux === "Te") || (dom === "Te" && aux === "Ni")) bonus += Math.min(fn.Ni, fn.Te) * .18;
+      if((dom === "Fi" && aux === "Ne") || (dom === "Ne" && aux === "Fi")) bonus += Math.min(fn.Fi, fn.Ne) * .18;
+      if((dom === "Ti" && aux === "Ne") || (dom === "Ne" && aux === "Ti")) bonus += Math.min(fn.Ti, fn.Ne) * .18;
+      if((dom === "Si" && aux === "Fe") || (dom === "Fe" && aux === "Si")) bonus += Math.min(fn.Si, fn.Fe) * .18;
+      if((dom === "Si" && aux === "Te") || (dom === "Te" && aux === "Si")) bonus += Math.min(fn.Si, fn.Te) * .18;
+      if((dom === "Se" && aux === "Ti") || (dom === "Ti" && aux === "Se")) bonus += Math.min(fn.Se, fn.Ti) * .18;
+      if((dom === "Se" && aux === "Fi") || (dom === "Fi" && aux === "Se")) bonus += Math.min(fn.Se, fn.Fi) * .18;
+      return bonus;
+    }
+
+    function getEvidenceForType(type, scores){
+      const stack = STACKS[type];
+      const picked = [];
+      scores.evidence.forEach(ev => {
+        const strength = stack.reduce((sum, f) => sum + (ev.fn[f] || 0), 0);
+        if(strength >= 4 && picked.length < 3){
+          picked.push(`“${ev.a}”`);
+        }
+      });
+      return picked.length ? picked : ["Jawabanmu menunjukkan beberapa fungsi dalam stack ini, tetapi buktinya tersebar di banyak pertanyaan."];
+    }
+
+    function enneagramInfo(n){
+      const data = {
+        "1":["ingin benar dan adil","takut menjadi salah, buruk, atau merusak","saat sehat: berprinsip tanpa kaku","saat stres: terlalu menghakimi diri atau orang lain","defense: mengoreksi diri agar terasa aman"],
+        "2":["ingin dicintai dan dibutuhkan","takut tidak diinginkan atau tidak berarti bagi orang lain","saat sehat: hangat tanpa kehilangan batas","saat stres: memberi terlalu banyak lalu merasa tidak dilihat","defense: membantu agar merasa dekat"],
+        "3":["ingin berhasil dan bernilai","takut gagal atau tidak punya arti jika tidak berprestasi","saat sehat: produktif dan menginspirasi","saat stres: terlalu mengejar citra atau hasil","defense: membuktikan diri lewat pencapaian"],
+        "4":["ingin menjadi diri yang asli dan bermakna","takut biasa saja, kosong, atau tidak dipahami","saat sehat: jujur, kreatif, dan dalam","saat stres: tenggelam dalam rasa kurang","defense: mencari identitas agar luka terasa punya bentuk"],
+        "5":["ingin paham dan mampu","takut tidak siap, bodoh, atau diserbu dunia","saat sehat: jernih dan bijak","saat stres: menarik diri terlalu jauh","defense: menjaga jarak agar punya kendali pikiran"],
+        "6":["ingin aman dan punya pegangan","takut tidak siap, ditinggalkan, atau salah percaya","saat sehat: setia dan waspada secara sehat","saat stres: terlalu curiga atau mencari kepastian terus","defense: memeriksa risiko agar tidak runtuh"],
+        "7":["ingin bebas dan hidup terasa luas","takut terjebak dalam sakit, bosan, atau batas sempit","saat sehat: optimis dan kreatif tanpa lari","saat stres: menghindari rasa berat dengan distraksi","defense: membuka opsi agar tidak merasa terkunci"],
+        "8":["ingin kuat dan punya kendali atas hidup","takut dikendalikan, dilemahkan, atau dikhianati","saat sehat: protektif dan berani","saat stres: terlalu keras atau defensif","defense: menyerang dulu agar tidak terlihat rapuh"],
+        "9":["ingin damai dan tidak terpecah","takut konflik, kehilangan hubungan, atau dipaksa memilih","saat sehat: menenangkan tanpa menghilang","saat stres: menunda, mati rasa, atau menghindar","defense: meredam diri agar situasi tetap aman"]
+      };
+      return data[n];
+    }
+
+    function wingFor(main, enneaScores){
+      const n = Number(main);
+      const left = n === 1 ? 9 : n - 1;
+      const right = n === 9 ? 1 : n + 1;
+      return enneaScores[String(left)] >= enneaScores[String(right)] ? `w${left}` : `w${right}`;
+    }
+
+    function tritype(enneaScores){
+      const gut = sortedEntries({8:enneaScores["8"],9:enneaScores["9"],1:enneaScores["1"]})[0];
+      const heart = sortedEntries({2:enneaScores["2"],3:enneaScores["3"],4:enneaScores["4"]})[0];
+      const head = sortedEntries({5:enneaScores["5"],6:enneaScores["6"],7:enneaScores["7"]})[0];
+      return [gut, heart, head].sort((a,b) => b[1] - a[1]).map(x => x[0]).join("");
+    }
+
+    function apType(apScores){
+      return sortedEntries(apScores).map(x => x[0]).join("");
+    }
+
+    function instinctStack(instScores){
+      return sortedEntries(instScores).map(x => x[0]).join("/");
+    }
+
+    function moralStyle(moral){
+      const top = sortedEntries(moral).slice(0,3).map(x => x[0]);
+      const labels = {
+        care:"kepedulian",
+        justice:"keadilan",
+        truth:"kebenaran",
+        order:"keteraturan",
+        loyalty:"loyalitas",
+        liberty:"kebebasan",
+        outcome:"hasil nyata"
+      };
+      const lawAxis = moral.order + moral.loyalty + moral.justice - moral.liberty;
+      const humanAxis = moral.care + moral.justice + moral.truth - moral.outcome * .35;
+      const law = lawAxis > 6 ? "Lawful / berprinsip-terstruktur" : lawAxis < 1 ? "Chaotic / bebas-kontekstual" : "Neutral / fleksibel";
+      const good = humanAxis > 8 ? "Good / peduli-dan-adil" : humanAxis < 2 ? "Pragmatic / hasil-dulu" : "Balanced / seimbang";
+      return {
+        text:`${law} + ${good}`,
+        top:top.map(k => labels[k]).join(", ")
+      };
+    }
+
+    function bigFiveResults(big){
+      const raw = {
+        Openness: 50 + big.O * 3.2,
+        Conscientiousness: 50 + big.C * 3.2,
+        Extraversion: 50 + big.E * 3.2,
+        Agreeableness: 50 + big.A * 3.2,
+        Neuroticism: 50 + big.N * 3.2
+      };
+      Object.keys(raw).forEach(k => raw[k] = Math.max(5, Math.min(95, Math.round(raw[k]))));
+      return raw;
+    }
+
+    function functionHealth(fn, scores){
+      const value = scores.fn[fn];
+      const inf = scores.pos.inf[fn];
+      const shadow = scores.pos.shadow[fn];
+      if(inf > 3) return "terlihat sering muncul saat stres atau saat kamu merasa terdesak";
+      if(shadow > 2) return "mungkin muncul sebagai pola bayangan saat kamu defensif";
+      const all = Object.values(scores.fn);
+      const max = Math.max(...all);
+      if(value > max * .75) return "terlihat cukup kuat dan cukup alami";
+      if(value > max * .45) return "terlihat sedang, muncul pada situasi tertentu";
+      return "tidak terlalu dominan dari jawaban yang kamu pilih";
+    }
+
+    function renderBars(title, entries, maxValue){
+      return `
+        <div class="section">
+          <h3>${title}</h3>
+          <div class="bars">
+            ${entries.map(([name,value]) => {
+              const pct = maxValue ? Math.round((value / maxValue) * 100) : 0;
+              return `
+                <div class="bar-item">
+                  <div class="bar-name">${name}</div>
+                  <div class="bar-bg"><div class="bar" style="width:${Math.max(4,pct)}%"></div></div>
+                  <div>${Math.round(value)}</div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderResults(){
+      const scores = calculateScores();
+      const mbti = calculateMbti(scores);
+      const mainType = mbti.main;
+      const mainStack = STACKS[mainType];
+      const topTypes = mbti.ranked.slice(0,3);
+      const fnRank = sortedEntries(scores.fn);
+      const maxFn = Math.max(...Object.values(scores.fn), 1);
+      const enneaRank = sortedEntries(scores.ennea).slice(0,3);
+      const mainEnnea = enneaRank[0][0];
+      const wing = wingFor(mainEnnea, scores.ennea);
+      const instincts = instinctStack(scores.instinct);
+      const tri = tritype(scores.ennea);
+      const big = bigFiveResults(scores.big5);
+      const tempRank = sortedEntries(scores.temp);
+      const ap = apType(scores.ap);
+      const moral = moralStyle(scores.moral);
+      const shadow = FUNCTIONS
+        .filter(f => !mainStack.includes(f))
+        .sort((a,b) => scores.fn[b] - scores.fn[a])
+        .slice(0,2)
+        .join(" dan ");
+
+      mainTypePill.textContent = mainType;
+      confidenceBadge.textContent = `Keyakinan: ${mbti.confidence}%`;
+      mainSummary.textContent = `Berdasarkan jawabanmu, tipe paling mungkin adalah ${mainType} dengan stack ${mainStack.join("–")}. ${TYPE_INFO[mainType]} Ini bukan kesimpulan mutlak, tetapi pola ini paling cocok dibanding tipe lain.`;
+
+      const topTypesHtml = topTypes.map(([type, value], idx) => {
+        const stack = STACKS[type];
+        const evidence = getEvidenceForType(type, scores);
+        const weaker = FUNCTIONS.filter(f => !stack.includes(f)).sort((a,b)=>scores.fn[b]-scores.fn[a])[0];
+        return `
+          <div class="small-card">
+            <h3>${idx + 1}. ${type} <span class="tiny">(${Math.round(value)} poin)</span></h3>
+            <p><b>Kenapa cocok:</b> jawabanmu cukup dekat dengan pola ${stack.join("–")}.</p>
+            <p><b>Kenapa mungkin kurang cocok:</b> fungsi ${weaker} juga muncul, sehingga hasil tetap perlu dibandingkan dengan pengalaman nyata.</p>
+            <p><b>Jawaban pendukung:</b></p>
+            <ul class="soft-list">${evidence.map(e => `<li>${e}</li>`).join("")}</ul>
+          </div>
+        `;
+      }).join("");
+
+      const fnDetails = fnRank.map(([fn, value]) => {
+        const pct = Math.round((value / maxFn) * 100);
+        return `
+          <div class="small-card">
+            <h3>${fn} <span class="tiny">${pct}% relatif</span></h3>
+            <p><b>Arti sederhana:</b> ${FUNCTION_INFO[fn]}</p>
+            <p><b>Kekuatan:</b> ${levelFromPercent(pct)}.</p>
+            <p><b>Kondisi:</b> ${functionHealth(fn, scores)}.</p>
+          </div>
+        `;
+      }).join("");
+
+      const enneaHtml = enneaRank.map(([num, val], idx) => {
+        const info = enneagramInfo(num);
+        return `
+          <div class="small-card">
+            <h3>${idx + 1}. Enneagram ${num} <span class="tiny">(${Math.round(val)} poin)</span></h3>
+            <p><b>Keinginan utama:</b> ${info[0]}.</p>
+            <p><b>Ketakutan tersembunyi:</b> ${info[1]}.</p>
+            <p>${info[2]}; ${info[3]}; ${info[4]}.</p>
+          </div>
+        `;
+      }).join("");
+
+      const bigHtml = Object.entries(big).map(([trait, val]) => {
+        const idName = {
+          Openness:"Openness / keterbukaan pada ide",
+          Conscientiousness:"Conscientiousness / kerapian dan tanggung jawab",
+          Extraversion:"Extraversion / energi sosial",
+          Agreeableness:"Agreeableness / kelembutan sosial",
+          Neuroticism:"Neuroticism / kepekaan terhadap tekanan"
+        }[trait];
+        return `
+          <div class="small-card">
+            <h3>${idName}</h3>
+            <p><b>${levelFromPercent(val)}</b> (${val}%). ${
+              trait === "Openness" ? "Ini menunjukkan seberapa nyaman kamu dengan ide baru, makna, dan cara melihat dunia yang tidak biasa." :
+              trait === "Conscientiousness" ? "Ini menunjukkan seberapa kuat doronganmu untuk rapi, selesai, bertanggung jawab, dan terstruktur." :
+              trait === "Extraversion" ? "Ini menunjukkan seberapa banyak energi yang muncul dari interaksi, tindakan luar, dan dunia ramai." :
+              trait === "Agreeableness" ? "Ini menunjukkan seberapa kuat kamu mempertimbangkan perasaan, harmoni, dan kebutuhan orang lain." :
+              "Ini menunjukkan seberapa mudah sistem emosimu aktif saat ada tekanan, penolakan, atau ketidakpastian."
+            }</p>
+          </div>
+        `;
+      }).join("");
+
+      const personalHtml = `
+        <div class="result-grid">
+          <div class="small-card"><h3>Saat konflik</h3><p>Kamu cenderung memakai ${mainStack[0]} dan ${mainStack[1]}: pola utama terlihat dari cara kamu membaca situasi lalu merespons dengan fungsi pendukung. Saat tertekan, ${mainStack[3]} bisa muncul lebih kasar atau tidak seimbang.</p></div>
+          <div class="small-card"><h3>Saat suka seseorang</h3><p>Kamu tampaknya mencari kombinasi antara makna, rasa aman, dan bukti nyata. Jika fungsi perasaanmu tinggi, kamu lebih berhati-hati pada dampak emosional; jika fungsi berpikirmu tinggi, kamu lebih mencari kejelasan.</p></div>
+          <div class="small-card"><h3>Saat merasa ditolak</h3><p>Jawabanmu menunjukkan kemungkinan menarik diri dulu untuk membaca ulang situasi. Ini bisa sehat jika dipakai untuk tenang, tetapi bisa menjadi berat jika berubah menjadi overthinking.</p></div>
+          <div class="small-card"><h3>Saat stres</h3><p>Fungsi inferior yang paling mungkin adalah ${mainStack[3]}. Ini bukan berarti fungsi itu buruk, hanya berarti ia bisa muncul lebih canggung ketika kamu sedang terdesak.</p></div>
+          <div class="small-card"><h3>Yang cenderung dihindari</h3><p>Kamu mungkin menghindari situasi yang membuat fungsi utama dan nilai batinmu terasa tidak dihargai: terlalu dipaksa cepat, terlalu dikekang, atau terlalu disalahpahami.</p></div>
+          <div class="small-card"><h3>Yang diam-diam dibutuhkan</h3><p>Kejelasan, ruang aman, dan orang yang tidak hanya melihat sikap luarmu, tetapi juga pola alasan di balik pilihanmu.</p></div>
+          <div class="small-card"><h3>Green flags</h3><p>Mampu membaca pola, cukup reflektif, punya dorongan memahami diri, dan tidak hanya memilih jawaban yang terlihat “baik”.</p></div>
+          <div class="small-card"><h3>Red flags</h3><p>Bisa terlalu lama memproses, terlalu defensif pada fungsi tertentu, atau menunda tindakan ketika rasa aman batin belum terbentuk.</p></div>
+        </div>
+      `;
+
+      resultsBox.innerHTML = `
+        <div class="section">
+          <h3>1. Hasil MBTI Utama</h3>
+          <p><b>Tipe paling mungkin:</b> ${mainType}</p>
+          <p><b>Cognitive stack:</b> ${mainStack.join("–")}</p>
+          <p><b>Penjelasan:</b> ${TYPE_INFO[mainType]}</p>
+        </div>
+
+        <div class="section">
+          <h3>2. Top 3 Kemungkinan MBTI</h3>
+          <div class="list">${topTypesHtml}</div>
+        </div>
+
+        ${renderBars("3. Ranking Fungsi Kognitif", fnRank, maxFn)}
+
+        <div class="section">
+          <h3>Detail Semua Fungsi Kognitif</h3>
+          <div class="result-grid">${fnDetails}</div>
+        </div>
+
+        <div class="section">
+          <h3>4. Pola Fungsi Saat Stres</h3>
+          <p><b>Fungsi paling alami:</b> ${mainStack[0]} — ${FUNCTION_INFO[mainStack[0]]}</p>
+          <p><b>Fungsi pendukung:</b> ${mainStack[1]} — membantu fungsi utama berjalan lebih seimbang.</p>
+          <p><b>Fungsi nyaman tapi kadang kekanak-kanakan:</b> ${mainStack[2]} — bisa terasa menyenangkan, tetapi kadang belum stabil.</p>
+          <p><b>Kemungkinan inferior function:</b> ${mainStack[3]} — bisa muncul lebih kasar saat stres.</p>
+          <p><b>Kemungkinan shadow pattern:</b> ${shadow} tampak sebagai fungsi non-stack yang tetap muncul dalam beberapa jawaban. Ini bisa berarti kamu memakainya saat defensif, penasaran, atau sedang menyesuaikan diri.</p>
+        </div>
+
+        <div class="section">
+          <h3>5. Hasil Enneagram</h3>
+          <p><b>Kemungkinan utama:</b> Enneagram ${mainEnnea}${wing}</p>
+          <p><b>Instinctual stacking:</b> ${instincts}</p>
+          <p><b>Kemungkinan tritype:</b> ${tri}</p>
+          <div class="result-grid">${enneaHtml}</div>
+        </div>
+
+        <div class="section">
+          <h3>6. Hasil Big Five</h3>
+          <div class="result-grid">${bigHtml}</div>
+        </div>
+
+        <div class="section">
+          <h3>7. Hasil Tipologi Lain</h3>
+          <div class="result-grid">
+            <div class="small-card">
+              <h3>Temperament</h3>
+              <p><b>${tempRank[0][0]}</b> paling kuat, diikuti ${tempRank[1][0]}. Ini hanya estimasi dari gaya energi, emosi, dan cara merespons tekanan.</p>
+            </div>
+            <div class="small-card">
+              <h3>Socionics</h3>
+              <p><b>${SOCIONICS[mainType]}</b>. Ini perkiraan kasar dari hasil MBTI, bukan konversi sempurna karena MBTI dan Socionics memakai sistem yang berbeda.</p>
+            </div>
+            <div class="small-card">
+              <h3>Attitudinal Psyche / Psychosophy</h3>
+              <p><b>${ap}</b>. Urutan ini membaca area yang terasa paling kuat: V = kemauan, L = logika, E = emosi, F = fisik/kenyamanan.</p>
+            </div>
+            <div class="small-card">
+              <h3>Moral alignment / gaya keputusan</h3>
+              <p><b>${moral.text}</b>. Fokus moral yang paling terlihat: ${moral.top}.</p>
+            </div>
+          </div>
+          <p class="tiny" style="margin-top:12px">Catatan: tipologi tambahan ini lebih lemah daripada hasil fungsi kognitif, jadi baca sebagai arah kasar.</p>
+        </div>
+
+        <div class="section">
+          <h3>8. Pola Pribadi</h3>
+          ${personalHtml}
+        </div>
+
+        <div class="section">
+          <h3>9. Catatan Akhir</h3>
+          <p><b>Ini bukan diagnosis. Ini hanya estimasi tipologi berdasarkan jawabanmu.</b></p>
+          <p>Hasil yang baik bukan yang terdengar paling langka atau paling indah, tetapi yang paling menjelaskan pola nyata: cara kamu berpikir, merasa, memilih, menghindar, bertahan, dan tumbuh.</p>
+        </div>
+      `;
+
+      latestResultText = buildPlainTextResult({
+        mainType, mainStack, confidence:mbti.confidence, topTypes, fnRank,
+        enneaRank, wing, instincts, tri, big, tempRank, socionics:SOCIONICS[mainType],
+        ap, moral
+      });
+
+      showScreen("result");
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    function buildPlainTextResult(r){
+      return [
+        "HASIL TES KEPRIBADIAN",
+        "",
+        `MBTI utama: ${r.mainType}`,
+        `Keyakinan: ${r.confidence}%`,
+        `Cognitive stack: ${r.mainStack.join("–")}`,
+        `Penjelasan: ${TYPE_INFO[r.mainType]}`,
+        "",
+        "Top 3 MBTI:",
+        ...r.topTypes.map(([t,v],i)=>`${i+1}. ${t} (${Math.round(v)} poin) - ${STACKS[t].join("–")}`),
+        "",
+        "Ranking fungsi kognitif:",
+        ...r.fnRank.map(([f,v])=>`${f}: ${Math.round(v)} poin - ${FUNCTION_INFO[f]}`),
+        "",
+        "Enneagram:",
+        ...r.enneaRank.map(([n,v],i)=>`${i+1}. Type ${n} (${Math.round(v)} poin)`),
+        `Wing: ${r.wing}`,
+        `Instinctual stacking: ${r.instincts}`,
+        `Tritype: ${r.tri}`,
+        "",
+        "Big Five:",
+        ...Object.entries(r.big).map(([k,v])=>`${k}: ${levelFromPercent(v)} (${v}%)`),
+        "",
+        `Temperament: ${r.tempRank[0][0]} lalu ${r.tempRank[1][0]}`,
+        `Socionics: ${r.socionics}`,
+        `Attitudinal Psyche / Psychosophy: ${r.ap}`,
+        `Moral alignment / gaya keputusan: ${r.moral.text}`,
+        `Fokus moral: ${r.moral.top}`,
+        "",
+        "Catatan: Ini bukan diagnosis. Ini hanya estimasi tipologi berdasarkan jawabanmu."
+      ].join("\n");
+    }
+  </script>
+</body>
+</html>
